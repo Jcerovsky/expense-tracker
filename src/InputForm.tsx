@@ -1,6 +1,30 @@
 import InputCategory from "./InputCategory";
+import { useState, MouseEvent } from "react";
 
 function InputForm() {
+  interface FormProps {
+    item: string;
+    cost: number;
+    category: string;
+    description?: string;
+    date: string;
+  }
+
+  const [formData, setFormData] = useState<FormProps>({
+    item: "",
+    cost: 0,
+    category: "",
+    description: "",
+    date: new Date().toISOString(),
+  });
+
+  const handleSubmit = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+
   const categories = [
     "Select",
     "Groceries",
@@ -30,13 +54,26 @@ function InputForm() {
           id="item"
           name="item"
           className="border-2 p-2 cursor-pointer rounded-lg	"
+          value={formData?.item}
+          onChange={(e) =>
+            setFormData((prevState) => ({
+              ...prevState,
+              item: e.target.value,
+            }))
+          }
         />
-        <label htmlFor="cost">How much was it</label>
+        <label htmlFor="cost">How much was it? </label>
         <input
           type="number"
           id="cost"
           name="cost"
           className="border-2 p-2 cursor-pointer rounded-lg	"
+          onChange={(e) =>
+            setFormData((prevState) => ({
+              ...prevState,
+              cost: +e.target.value,
+            }))
+          }
         />
         <label htmlFor="category" className="cursor-pointer">
           Category
@@ -45,6 +82,13 @@ function InputForm() {
           name="category"
           id="category"
           className="p-2 border-2 cursor-pointer"
+          value={formData?.category}
+          onChange={(e) =>
+            setFormData((prevState) => ({
+              ...prevState,
+              category: e.target.value,
+            }))
+          }
         >
           {categories.map((category) => (
             <InputCategory key={crypto.randomUUID()} category={category} />
@@ -58,6 +102,13 @@ function InputForm() {
           id="description"
           name="description"
           className="p-2 border-2 cursor-pointer rounded-lg	"
+          value={formData?.description}
+          onChange={(e) =>
+            setFormData((prevState) => ({
+              ...prevState,
+              description: e.target.value,
+            }))
+          }
         />
         <label htmlFor="date" className="cursor-pointer">
           Date
@@ -66,9 +117,20 @@ function InputForm() {
           type="date"
           id="date"
           name="date"
+          placeholder={formData?.date.toString()}
           className="border-2 p-2 cursor-pointer rounded-lg	"
+          value={formData?.date}
+          onChange={(e) =>
+            setFormData((prevState) => ({
+              ...prevState,
+              date: e.target.value,
+            }))
+          }
         />
-        <button className="border-2 cursor-pointer rounded-lg text-2xl">
+        <button
+          className="border-2 cursor-pointer rounded-lg text-2xl"
+          onClick={(event) => handleSubmit(event)}
+        >
           Add expense
         </button>
       </form>
