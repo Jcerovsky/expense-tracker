@@ -43,7 +43,7 @@ function InputForm() {
   return (
     <div>
       <form
-        action=""
+        action="src"
         className="border-8 flex flex-col justify-center  rounded-lg gap-2 p-3 cursor-pointer"
       >
         <label htmlFor="item" className="cursor-pointer">
