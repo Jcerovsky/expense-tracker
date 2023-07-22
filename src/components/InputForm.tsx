@@ -40,10 +40,13 @@ function InputForm() {
     "Other",
   ];
 
+  const inputStyle =
+    "border-2 cursor-pointer rounded-lg text-xl p-2 hover:shadow-inner";
+
   return (
     <div>
       <form
-        action="src"
+        action=""
         className="border-8 flex flex-col justify-center  rounded-lg gap-2 p-3 cursor-pointer"
       >
         <label htmlFor="item" className="cursor-pointer">
@@ -53,7 +56,8 @@ function InputForm() {
           type="text"
           id="item"
           name="item"
-          className="border-2 p-2 cursor-pointer rounded-lg	"
+          className={inputStyle}
+          placeholder=""
           value={formData?.item}
           onChange={(e) =>
             setFormData((prevState) => ({
@@ -67,7 +71,8 @@ function InputForm() {
           type="number"
           id="cost"
           name="cost"
-          className="border-2 p-2 cursor-pointer rounded-lg	"
+          className={inputStyle}
+          placeholder="$"
           onChange={(e) =>
             setFormData((prevState) => ({
               ...prevState,
@@ -81,7 +86,7 @@ function InputForm() {
         <select
           name="category"
           id="category"
-          className="p-2 border-2 cursor-pointer"
+          className={inputStyle}
           value={formData?.category}
           onChange={(e) =>
             setFormData((prevState) => ({
@@ -101,7 +106,7 @@ function InputForm() {
           type="text"
           id="description"
           name="description"
-          className="p-2 border-2 cursor-pointer rounded-lg	"
+          className={inputStyle}
           value={formData?.description}
           onChange={(e) =>
             setFormData((prevState) => ({
@@ -118,7 +123,7 @@ function InputForm() {
           id="date"
           name="date"
           placeholder={formData?.date.toString()}
-          className="border-2 p-2 cursor-pointer rounded-lg	"
+          className={inputStyle}
           value={formData?.date}
           onChange={(e) =>
             setFormData((prevState) => ({
@@ -127,10 +132,7 @@ function InputForm() {
             }))
           }
         />
-        <button
-          className="border-2 cursor-pointer rounded-lg text-2xl"
-          onClick={(event) => handleSubmit(event)}
-        >
+        <button className={inputStyle} onClick={(event) => handleSubmit(event)}>
           Add expense
         </button>
       </form>
