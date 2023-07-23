@@ -1,7 +1,34 @@
 import React from "react";
-import { FaGoogle } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { AiFillFacebook } from "react-icons/ai";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  FacebookAuthProvider,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 function UserLogin() {
+  const googleProvider = new GoogleAuthProvider();
+
+  const GoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const fbProvider = new FacebookAuthProvider();
+  const FacebookLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, fbProvider);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log("logged in");
@@ -41,9 +68,19 @@ function UserLogin() {
           OR
         </span>
       </div>
-      <button className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full">
-        <FaGoogle />
+      <button
+        className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full"
+        onClick={GoogleLogin}
+      >
+        <FcGoogle className="text-2xl" />
         Sign in with Google
+      </button>
+      <button
+        className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full mt-3"
+        onClick={FacebookLogin}
+      >
+        <AiFillFacebook className="text-2xl text-blue-600" />
+        Sign in with Facebook
       </button>
     </div>
   );
