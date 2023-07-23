@@ -32,7 +32,6 @@ function InputForm() {
     "Eating Out",
     "Entertainment",
     "Health",
-    "Health",
     "Transport",
     "Home",
     "Travel",
@@ -132,7 +131,10 @@ function InputForm() {
             }))
           }
         />
-        <button className={inputStyle} onClick={(event) => handleSubmit(event)}>
+        <button
+          className={`${inputStyle} active:scale-90`}
+          onClick={(event) => handleSubmit(event)}
+        >
           Add expense
         </button>
       </form>
