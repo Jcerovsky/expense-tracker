@@ -23,7 +23,7 @@ function Navbar() {
 
   return (
     <nav className="flex justify-start p-7 gap-2 md:text-xl lg:text-2xl bg-slate-600 p-4 ">
-      {user && (
+      {user && user.photoURL && (
         <img
           src={user.photoURL || ""}
           className={`w-10 h-10 rounded-full ${showMenu ? "hidden" : ""}`}
@@ -44,6 +44,7 @@ function Navbar() {
             ? " h-screen w-full flex flex-col justify-center items-center gap-10 text-3xl"
             : "hidden"
         }`}
+        onClick={() => setShowMenu(false)}
       >
         {user ? (
           <>
@@ -68,12 +69,12 @@ function Navbar() {
                 console.log("signed out");
               }}
             >
-              <Link to="/signout">Sign Out</Link>
+              <Link to="/signin">Sign Out</Link>
             </li>
           </>
         ) : (
           <li className="hover:underline hover:scale-90">
-            <Link to="/signin">Sign In</Link>
+            <Link to="/signin">{loading ? "Loading..." : "Sign In"}</Link>
           </li>
         )}
       </ul>

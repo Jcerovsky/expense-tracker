@@ -11,22 +11,25 @@ import { auth } from "../utils/firebase";
 function UserLogin() {
   const googleProvider = new GoogleAuthProvider();
 
-  const GoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      console.log(result);
-    } catch (err) {
-      console.log(err);
-    }
+  const GoogleLogin = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   const fbProvider = new FacebookAuthProvider();
-  const FacebookLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, fbProvider);
-      console.log(result);
-    } catch (err) {
-      console.log(err);
-    }
+  const FacebookLogin = () => {
+    signInWithPopup(auth, fbProvider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -62,6 +65,9 @@ function UserLogin() {
           Login
         </button>
       </form>
+      <h1>
+        Create a new <a href="/signup">account</a>
+      </h1>
 
       <div className="mt-6 mb-6 relative p-2 border-t border-gray-400">
         <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 bg-white pl-4 pr-4">
