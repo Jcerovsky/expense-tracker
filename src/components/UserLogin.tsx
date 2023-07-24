@@ -47,7 +47,7 @@ function UserLogin() {
           id="username"
           placeholder="Email"
           required={true}
-          className="border-2 rounded-lg p-3"
+          className="border-2 rounded-lg p-3 hover:bg-gray-100"
         />
         <input
           type="text"
@@ -55,18 +55,21 @@ function UserLogin() {
           id="password"
           placeholder="Password"
           required={true}
-          className="border-2 rounded-lg p-3"
+          className="border-2 rounded-lg p-3 hover:bg-gray-100"
         />
         <button
           type="submit"
-          className="border-2 rounded-full p-3"
+          className="border-2 rounded-full p-3 hover:bg-gray-100"
           onClick={(e) => handleSubmit(e)}
         >
           Login
         </button>
       </form>
-      <h1>
-        Create a new <a href="/signup">account</a>
+      <h1 className="mt-5">
+        Don't have an account?
+        <a href="/signup" className="underline ml-1 text-blue-700">
+          Sign up.
+        </a>
       </h1>
 
       <div className="mt-6 mb-6 relative p-2 border-t border-gray-400">
@@ -75,14 +78,14 @@ function UserLogin() {
         </span>
       </div>
       <button
-        className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full"
+        className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full hover:bg-gray-100"
         onClick={GoogleLogin}
       >
         <FcGoogle className="text-2xl" />
         Sign in with Google
       </button>
       <button
-        className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full mt-3"
+        className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full mt-3 hover:bg-gray-100"
         onClick={FacebookLogin}
       >
         <AiFillFacebook className="text-2xl text-blue-600" />
