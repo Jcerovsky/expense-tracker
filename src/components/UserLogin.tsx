@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
 import {
   GoogleAuthProvider,
   signInWithPopup,
   FacebookAuthProvider,
+  signInWithEmailAndPassword,
+  getAuth,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { ErrorMessage } from "./ErrorMessage";
 
 function UserLogin() {
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
   const googleProvider = new GoogleAuthProvider();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const GoogleLogin = () => {
     signInWithPopup(auth, googleProvider)
@@ -34,18 +41,36 @@ function UserLogin() {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log("logged in");
+
+    const auth = getAuth();
+    signInWithEmailAndPassword(
+      auth,
+      emailRef.current?.value as string,
+      passwordRef.current?.value as string,
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((err) => {
+        if (err.message === "Firebase: Error (auth/wrong-password).") {
+          setErrorMsg("Wrong password");
+        }
+      });
   };
 
   return (
-    <div className="h-screen text-xl p-12 max-w-lg ml-auto mr-auto">
+    <div className="h-screen text-xl p-12 max-w-lg ml-auto mr-auto ">
+      <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
       <h1 className="mb-4">Sign in</h1>
       <form action="" className="flex flex-col gap-3  ">
         <input
           type="email"
-          name="username"
-          id="username"
+          name="email"
+          id="email"
           placeholder="Email"
+          ref={emailRef}
           required={true}
           className="border-2 rounded-lg p-3 hover:bg-gray-100"
         />
@@ -55,6 +80,7 @@ function UserLogin() {
           id="password"
           placeholder="Password"
           required={true}
+          ref={passwordRef}
           className="border-2 rounded-lg p-3 hover:bg-gray-100"
         />
         <button
@@ -67,7 +93,10 @@ function UserLogin() {
       </form>
       <h1 className="mt-5">
         Don't have an account?
-        <a href="/signup" className="underline ml-1 text-blue-700">
+        <a
+          href="/signup"
+          className="underline ml-1 text-blue-700 hover:text-blue-900"
+        >
           Sign up.
         </a>
       </h1>

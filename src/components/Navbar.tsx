@@ -8,6 +8,7 @@ import { auth } from "../utils/firebase";
 function Navbar() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [user, loading] = useAuthState(auth);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
     const handleResize = () => {

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { ErrorMessage } from "./ErrorMessage";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 function UserSignUp() {
@@ -40,26 +40,14 @@ function UserSignUp() {
   };
 
   return (
-    <>
-      {errorMsg && (
-        <div className="flex justify-center">
-          <div className=" mt-10 bg-red-600 p-6 rounded-md relative inline-block text-center">
-            {errorMsg}
-            <button
-              className="absolute top-1 right-1 p-1 bg-red-300 rounded-2xl w-5 h-5 flex justify-center items-center text-sm"
-              onClick={() => setErrorMsg("")}
-            >
-              <span>X</span>
-            </button>
-          </div>
-        </div>
-      )}
+    <div className="bg-gray-100">
+      <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
 
       <form
         action=""
         className="flex flex-col gap-4 h-screen text-xl p-12 max-w-lg ml-auto mr-auto"
       >
-        <h1 className="text-center text-4xl">Sign up</h1>
+        <h1 className="text-center text-4xl mb-6">Sign up</h1>
         <p className="text-sm">
           Already a member?{" "}
           <a href="/signin" className="underline text-blue-700">
@@ -110,7 +98,7 @@ function UserSignUp() {
           Sign up
         </button>
       </form>
-    </>
+    </div>
   );
 }
 
