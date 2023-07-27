@@ -6,14 +6,15 @@ import {
   signInWithPopup,
   FacebookAuthProvider,
   signInWithEmailAndPassword,
-  getAuth,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { ErrorMessage } from "./ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 function UserLogin() {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
+  const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -32,7 +33,8 @@ function UserLogin() {
   const FacebookLogin = () => {
     signInWithPopup(auth, fbProvider)
       .then((result) => {
-        console.log(result);
+        const user = result.user;
+        console.log("facebook", user);
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +44,6 @@ function UserLogin() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    const auth = getAuth();
     signInWithEmailAndPassword(
       auth,
       emailRef.current?.value as string,
@@ -50,7 +51,8 @@ function UserLogin() {
     )
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        console.log("login with email and password", user);
+        navigate("/");
         // ...
       })
       .catch((err) => {
