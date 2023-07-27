@@ -28,8 +28,10 @@ interface expensesCollectionProps {
   date: string;
   description?: string;
   cost: number;
-  id?: string;
+  category: string;
 }
+
+console.log("uid", auth.currentUser?.uid);
 
 export const fetchData = async () => {
   try {
@@ -43,6 +45,7 @@ export const fetchData = async () => {
           cost: expenseData.cost,
           description: expenseData.description,
           date: expenseData.date,
+          category: expenseData.category,
           id: expense.id,
         };
       },

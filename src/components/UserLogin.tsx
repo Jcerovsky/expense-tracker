@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
 import {
@@ -10,9 +10,13 @@ import {
 import { auth } from "../utils/firebase";
 import { ErrorMessage } from "./ErrorMessage";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 function UserLogin() {
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const context = useContext(UserContext);
+
+  console.log("context user id", context?.userId);
 
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
@@ -22,7 +26,7 @@ function UserLogin() {
   const GoogleLogin = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        console.log(result);
+        context && context.setUserId(result.user.uid);
       })
       .catch((err) => {
         console.log(err);
@@ -33,8 +37,7 @@ function UserLogin() {
   const FacebookLogin = () => {
     signInWithPopup(auth, fbProvider)
       .then((result) => {
-        const user = result.user;
-        console.log("facebook", user);
+        context && context.setUserId(result.user.uid);
       })
       .catch((err) => {
         console.log(err);
@@ -49,9 +52,9 @@ function UserLogin() {
       emailRef.current?.value as string,
       passwordRef.current?.value as string,
     )
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("login with email and password", user);
+      .then((result) => {
+        context && context.setUserId(result.user.uid);
+
         navigate("/");
         // ...
       })

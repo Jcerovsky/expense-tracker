@@ -8,7 +8,6 @@ import { auth } from "../utils/firebase";
 function Navbar() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [user, loading] = useAuthState(auth);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,7 +48,6 @@ function Navbar() {
       >
         {user ? (
           <>
-            <h1>Fancy seeing you here {user.displayName?.split(" ")[0]},</h1>
             <li className="hover:underline hover:scale-90 ">
               <Link to="/form">Expenses</Link>
             </li>
@@ -70,12 +68,12 @@ function Navbar() {
                 console.log("signed out");
               }}
             >
-              <Link to="/signin">Sign Out</Link>
+              <Link to="/login">Sign Out</Link>
             </li>
           </>
         ) : (
           <li className="hover:underline hover:scale-90">
-            <Link to="/signin">{loading ? "Loading..." : "Sign In"}</Link>
+            <Link to="/login">{loading ? "Loading..." : "Sign In"}</Link>
           </li>
         )}
       </ul>

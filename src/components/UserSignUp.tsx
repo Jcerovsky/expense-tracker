@@ -1,15 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "./ErrorMessage";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { UserContext } from "../context/UserContext";
 
 function UserSignUp() {
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  const context = useContext(UserContext);
+
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const confirmPasswordRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const usernameRef = useRef<HTMLInputElement | null>(null);
 
-  const [errorMsg, setErrorMsg] = useState<string>("");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -28,8 +31,7 @@ function UserSignUp() {
       passwordRef.current?.value as string,
     )
       .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+        context && context.setUserId(userCredential.user.uid);
         navigate("/");
       })
       .catch((error) => {
