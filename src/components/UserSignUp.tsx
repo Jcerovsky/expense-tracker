@@ -50,7 +50,7 @@ function UserSignUp() {
         <h1 className="text-center text-4xl mb-6">Sign up</h1>
         <p className="text-sm">
           Already a member?{" "}
-          <a href="/signin" className="underline text-blue-700">
+          <a href="/login" className="underline text-blue-700">
             Log in.
           </a>
         </p>

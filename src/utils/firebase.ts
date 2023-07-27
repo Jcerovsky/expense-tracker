@@ -1,6 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -13,31 +20,51 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 export const auth = getAuth();
+const db = getFirestore();
+const expensesRef = collection(db, "expenses");
 
 interface expensesCollectionProps {
   item: string;
   date: string;
   description?: string;
   cost: number;
+  id?: string;
 }
 
 export const fetchData = async () => {
   try {
-    const db = getFirestore();
-    const expensesRef = collection(db, "expenses");
     const snapshot = await getDocs(expensesRef);
-    const expensesArray: expensesCollectionProps[] = snapshot.docs.map(
+    const expensesArr: expensesCollectionProps[] = snapshot.docs.map(
       (expense) => {
         const expenseData = expense.data() as expensesCollectionProps;
+
         return {
           item: expenseData.item,
-          description: expenseData.description,
           cost: expenseData.cost,
+          description: expenseData.description,
           date: expenseData.date,
+          id: expense.id,
         };
       },
     );
-    return expensesArray;
+    return expensesArr;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addData = async (data: expensesCollectionProps) => {
+  try {
+    await addDoc(expensesRef, data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteData = async (id: string) => {
+  try {
+    const docRef = doc(db, "expenses", id);
+    await deleteDoc(docRef);
   } catch (err) {
     console.log(err);
   }

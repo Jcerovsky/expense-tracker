@@ -1,15 +1,8 @@
 import InputCategory from "./InputCategory";
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useRef } from "react";
+import { addData } from "../utils/firebase";
 
 function InputForm() {
-  interface FormProps {
-    item: string;
-    cost: number;
-    category: string;
-    description?: string;
-    date: string;
-  }
-
   const [formData, setFormData] = useState<FormProps>({
     item: "",
     cost: 0,
@@ -18,11 +11,34 @@ function InputForm() {
     date: new Date().toISOString(),
   });
 
-  const handleSubmit = (
+  interface FormProps {
+    item: string;
+    cost: number;
+    category: string;
+    description?: string;
+    date: string;
+  }
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      await addData(formData);
+      console.log("successfully added");
+      formRef.current?.reset();
+      setFormData({
+        item: "",
+        date: "",
+        cost: 0,
+        category: "",
+        description: "",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const categories = [
@@ -47,6 +63,7 @@ function InputForm() {
       <form
         action=""
         className="border-8 flex flex-col justify-center  rounded-lg gap-2 p-3 cursor-pointer"
+        ref={formRef}
       >
         <label htmlFor="item" className="cursor-pointer">
           What did you buy?
