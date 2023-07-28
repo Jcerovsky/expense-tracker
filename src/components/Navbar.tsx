@@ -63,9 +63,8 @@ function Navbar() {
 
             <li
               className="hover:underline hover:scale-90"
-              onClick={() => {
-                auth.signOut();
-                console.log("signed out");
+              onClick={async () => {
+                await auth.signOut();
               }}
             >
               <Link to="/login">Sign Out</Link>

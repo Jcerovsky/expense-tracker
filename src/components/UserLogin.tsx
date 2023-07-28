@@ -27,7 +27,7 @@ function UserLogin() {
         context && context.setUserId(result.user.uid);
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMsg(err);
       });
   };
 
@@ -38,7 +38,7 @@ function UserLogin() {
         context && context.setUserId(result.user.uid);
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMsg(err);
       });
   };
 
