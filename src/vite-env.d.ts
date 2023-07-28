@@ -8,4 +8,5 @@ interface ImportMetaEnv {
   VITE_STORAGE_BUCKET: string;
   VITE_PROJECT_ID: string;
   VITE_AUTH_DOMAIN: string;
+  VITE_API_NINJAS_API_KEY: string;
 }
