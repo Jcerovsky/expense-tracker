@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
 import {
@@ -42,6 +42,12 @@ function UserLogin() {
       });
   };
 
+  useEffect(() => {
+    if (auth.currentUser) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
@@ -55,8 +61,8 @@ function UserLogin() {
       );
       if (context) {
         context.setUserId(result.user.uid);
+        navigate("/");
       }
-      navigate("/");
     } catch (err) {
       if (err.message === "Firebase: Error (auth/wrong-password).") {
         setErrorMsg("Wrong password");

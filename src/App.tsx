@@ -13,9 +13,11 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.currentUser === null) {
+    if (auth.currentUser === null && window.location.pathname !== "/signup") {
       setAuthChecked(true);
       navigate("/login");
+    } else {
+      setAuthChecked(true);
     }
   }, [navigate]);
 
