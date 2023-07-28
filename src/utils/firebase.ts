@@ -33,8 +33,6 @@ export interface expensesCollectionProps {
   id?: string | null;
 }
 
-console.log("uid", auth.currentUser?.uid);
-
 export const FetchData = async () => {
   try {
     const snapshot = await getDocs(expensesRef);
