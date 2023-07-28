@@ -21,6 +21,11 @@ function Home() {
 
   const userName = auth.currentUser?.displayName?.split(" ")[0];
 
+  if (auth.currentUser === null) {
+    console.log("not logged in");
+    return;
+  }
+
   return (
     <div className="p-3 bg-blue-300 w-full">
       <div className=" ">

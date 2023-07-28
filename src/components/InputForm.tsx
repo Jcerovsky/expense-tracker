@@ -2,6 +2,7 @@ import InputCategory from "./InputCategory";
 import { useState, MouseEvent, useRef, useContext } from "react";
 import { addData, expensesCollectionProps } from "../utils/firebase";
 import { UserContext } from "../context/UserContext";
+import { auth } from "../utils/firebase";
 
 function InputForm() {
   const context = useContext(UserContext);
@@ -21,18 +22,23 @@ function InputForm() {
   ) => {
     e.preventDefault();
     try {
-      await addData(formData);
-      console.log("successfully added");
-      formRef.current?.reset();
-      setFormData({
-        item: "",
-        date: "",
-        cost: 0,
-        category: "",
-        description: "",
-        id: "",
-        uid: context?.userId || null,
-      });
+      if (auth.currentUser === null) {
+        console.log("not logged in");
+        return;
+      } else {
+        await addData(formData);
+        console.log("successfully added");
+        formRef.current?.reset();
+        setFormData({
+          item: "",
+          date: "",
+          cost: 0,
+          category: "",
+          description: "",
+          id: "",
+          uid: context?.userId || null,
+        });
+      }
     } catch (err) {
       console.log(err);
     }
