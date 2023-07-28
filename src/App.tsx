@@ -17,7 +17,7 @@ function App() {
       setAuthChecked(true);
       navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   if (!authChecked) {
     return (
