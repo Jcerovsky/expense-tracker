@@ -23,17 +23,19 @@ export const auth = getAuth();
 const db = getFirestore();
 const expensesRef = collection(db, "expenses");
 
-interface expensesCollectionProps {
+export interface expensesCollectionProps {
   item: string;
   date: string;
   description?: string;
   cost: number;
   category: string;
+  uid: string | null;
+  id?: string | null;
 }
 
 console.log("uid", auth.currentUser?.uid);
 
-export const fetchData = async () => {
+export const FetchData = async () => {
   try {
     const snapshot = await getDocs(expensesRef);
     const expensesArr: expensesCollectionProps[] = snapshot.docs.map(
@@ -47,6 +49,7 @@ export const fetchData = async () => {
           date: expenseData.date,
           category: expenseData.category,
           id: expense.id,
+          uid: expenseData.uid,
         };
       },
     );

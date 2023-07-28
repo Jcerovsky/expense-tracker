@@ -1,23 +1,18 @@
 import InputCategory from "./InputCategory";
-import { useState, MouseEvent, useRef } from "react";
-import { addData } from "../utils/firebase";
+import { useState, MouseEvent, useRef, useContext } from "react";
+import { addData, expensesCollectionProps } from "../utils/firebase";
+import { UserContext } from "../context/UserContext";
 
 function InputForm() {
-  const [formData, setFormData] = useState<FormProps>({
+  const context = useContext(UserContext);
+  const [formData, setFormData] = useState<expensesCollectionProps>({
     item: "",
     cost: 0,
     category: "",
     description: "",
     date: new Date().toISOString(),
+    uid: context?.userId || null,
   });
-
-  interface FormProps {
-    item: string;
-    cost: number;
-    category: string;
-    description?: string;
-    date: string;
-  }
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -35,6 +30,8 @@ function InputForm() {
         cost: 0,
         category: "",
         description: "",
+        id: "",
+        uid: context?.userId || null,
       });
     } catch (err) {
       console.log(err);

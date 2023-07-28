@@ -16,8 +16,6 @@ function UserLogin() {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const context = useContext(UserContext);
 
-  console.log("context user id", context?.userId);
-
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
   const emailRef = useRef<HTMLInputElement>(null);
@@ -44,25 +42,26 @@ function UserLogin() {
       });
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(
-      auth,
-      emailRef.current?.value as string,
-      passwordRef.current?.value as string,
-    )
-      .then((result) => {
-        context && context.setUserId(result.user.uid);
-
-        navigate("/");
-        // ...
-      })
-      .catch((err) => {
-        if (err.message === "Firebase: Error (auth/wrong-password).") {
-          setErrorMsg("Wrong password");
-        }
-      });
+    try {
+      const result = await signInWithEmailAndPassword(
+        auth,
+        emailRef.current?.value as string,
+        passwordRef.current?.value as string,
+      );
+      if (context) {
+        context.setUserId(result.user.uid);
+      }
+      navigate("/");
+    } catch (err) {
+      if (err.message === "Firebase: Error (auth/wrong-password).") {
+        setErrorMsg("Wrong password");
+      }
+    }
   };
 
   return (
