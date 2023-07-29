@@ -41,14 +41,14 @@ function Home() {
               className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 text-2xl"
               id={crypto.randomUUID()}
             >
-              <span className="text-5xl">
+              <span className="text-4xl bg-purple-700 text-white p-2 rounded-xl">
                 {
                   categories[
                     item.category.toLowerCase() as keyof typeof categories
                   ]
                 }
               </span>
-              <h2>{item.item}</h2>
+              <h2 className="ml-2">{item.item}</h2>
               <p>{item.description}</p>
               <p>{item.date === getDate() ? "Today" : item.date}</p>
               <p>${item.cost}</p>
