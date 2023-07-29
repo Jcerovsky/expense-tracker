@@ -33,25 +33,32 @@ function Home() {
   return (
     <div className="p-3 bg-blue-300 w-full">
       <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
-      <div className=" ">
+      <div>
         <p>Welcome back {userName}, </p>
         <div className="flex flex-col gap-2">
           {sortedExpensesByDate.map((item) => (
             <div
-              className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 text-2xl"
+              className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 relative wrap"
               id={crypto.randomUUID()}
             >
-              <span className="text-4xl bg-purple-700 text-white p-2 rounded-xl">
+              <span className="text-2xl bg-purple-700 text-white p-2 rounded-xl">
                 {
                   categories[
                     item.category.toLowerCase() as keyof typeof categories
                   ]
                 }
               </span>
-              <h2 className="ml-2">{item.item}</h2>
-              <p>{item.description}</p>
-              <p>{item.date === getDate() ? "Today" : item.date}</p>
-              <p>${item.cost}</p>
+              <div className="flex flex-col justify-c ml-4 mt-2">
+                <p className="text-xl">{item.item}</p>
+                <p>{item.description}</p>
+              </div>
+              <p className="absolute top-0 left-0.5 text-xs">
+                {item.date === getDate() ? "Today" : item.date}
+              </p>
+              <p className="text-xl bold ml-auto">${item.cost}</p>
+              <div className="flex justify-center items-center absolute top-0.5 right-0.5 p-3 text-sm bg-red-300 w-5 h-5 rounded-full">
+                <button className="">X</button>
+              </div>
             </div>
           ))}
         </div>

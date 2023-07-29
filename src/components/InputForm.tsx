@@ -22,6 +22,7 @@ function InputForm() {
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
     e.preventDefault();
+
     try {
       await addData(formData);
       formRef.current?.reset();
