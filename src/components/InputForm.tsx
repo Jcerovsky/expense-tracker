@@ -12,7 +12,7 @@ function InputForm() {
     cost: 0,
     category: "",
     description: "",
-    date: new Date().toISOString(),
+    date: "",
     uid: context?.userId || null,
   });
 
@@ -46,7 +46,6 @@ function InputForm() {
     "Eating Out",
     "Entertainment",
     "Health",
-    "Transport",
     "Home",
     "Travel",
     "Education",

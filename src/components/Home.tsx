@@ -4,14 +4,15 @@ import { auth } from "../utils/firebase";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
+import { getDate } from "../utils/getDate";
+import { categories } from "../utils/categories";
 
 function Home() {
+  const context = useContext(UserContext);
   const [errorMsg, setErrorMsg] = useState<string>("");
-
   const [expensesData, setExpensesData] = useState<expensesCollectionProps[]>(
     [],
   );
-  const context = useContext(UserContext);
 
   useEffect(() => {
     FetchData()
@@ -23,6 +24,8 @@ function Home() {
 
   const userName = auth.currentUser?.displayName?.split(" ")[0];
 
+  expensesData?.filter((item) => context?.userId === item.uid);
+
   return (
     <div className="p-3 bg-blue-300 w-full">
       <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
@@ -33,12 +36,20 @@ function Home() {
             ?.filter((item) => context?.userId === item.uid)
             .map((item) => (
               <div
-                className="flex gap-2 border-2 rounded-l items-center justify-left p-1"
+                className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 text-2xl"
                 id={crypto.randomUUID()}
               >
-                <h1>{item.item}</h1>
-                <p>{item.cost}</p>
-                <p>{item.date}</p>
+                <span className="text-5xl">
+                  {
+                    categories[
+                      item.category.toLowerCase() as keyof typeof categories
+                    ]
+                  }
+                </span>
+                <h2>{item.item}</h2>
+                <p>{item.description}</p>
+                <p>{item.date === getDate() ? "Today" : item.date}</p>
+                <p>${item.cost}</p>
               </div>
             ))}
         </div>
