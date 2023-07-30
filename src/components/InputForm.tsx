@@ -14,6 +14,7 @@ function InputForm() {
     description: "",
     date: "",
     uid: context?.userId || null,
+    createdAt: Date.now(),
   });
 
   const formRef = useRef<HTMLFormElement>(null);

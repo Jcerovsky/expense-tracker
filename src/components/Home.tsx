@@ -6,6 +6,7 @@ import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
 import { getDate } from "../utils/getDate";
 import { categories } from "../utils/categories";
+import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 
 function Home() {
   const context = useContext(UserContext);
@@ -39,7 +40,7 @@ function Home() {
           {sortedExpensesByDate.map((item) => (
             <div
               className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 relative wrap"
-              id={crypto.randomUUID()}
+              key={crypto.randomUUID()}
             >
               <span className="text-2xl bg-purple-700 text-white p-2 rounded-xl">
                 {
@@ -55,7 +56,7 @@ function Home() {
               <p className="absolute top-0 left-0.5 text-xs">
                 {item.date === getDate() ? "Today" : item.date}
               </p>
-              <p className="text-xl bold ml-auto">${item.cost}</p>
+              <p className="text-xl bold ml-auto">${formatNumber(item.cost)}</p>
               <div className="flex justify-center items-center absolute top-0.5 right-0.5 p-3 text-sm bg-red-300 w-5 h-5 rounded-full">
                 <button className="">X</button>
               </div>

@@ -31,6 +31,7 @@ export interface expensesCollectionProps {
   category: string;
   uid: string | null;
   id?: string | null;
+  createdAt?: number;
 }
 
 export const FetchData = async () => {
@@ -48,6 +49,7 @@ export const FetchData = async () => {
           category: expenseData.category,
           id: expense.id,
           uid: expenseData.uid,
+          createdAt: expenseData.createdAt,
         };
       },
     );
