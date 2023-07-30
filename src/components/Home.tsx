@@ -1,6 +1,6 @@
 import { expensesCollectionProps, FetchData } from "../utils/firebase";
 
-import { auth } from "../utils/firebase";
+import { auth, deleteData } from "../utils/firebase";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
@@ -15,12 +15,16 @@ function Home() {
     [],
   );
 
-  useEffect(() => {
+  const fetchData = () => {
     FetchData()
       .then((data) => {
         setExpensesData(data!);
       })
       .catch((err) => setErrorMsg(err as string));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [context?.userId]);
 
   const userName = auth.currentUser?.displayName?.split(" ")[0];
@@ -31,6 +35,11 @@ function Home() {
   const sortedExpensesByDate = filteredExpensesByUser.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
+
+  const handleDelete = async (id: string) => {
+    await deleteData(id);
+    fetchData();
+  };
   return (
     <div className="p-3 bg-blue-300 w-full">
       <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
@@ -57,8 +66,11 @@ function Home() {
                 {item.date === getDate() ? "Today" : item.date}
               </p>
               <p className="text-xl bold ml-auto">${formatNumber(item.cost)}</p>
-              <div className="flex justify-center items-center absolute top-0.5 right-0.5 p-3 text-sm bg-red-300 w-5 h-5 rounded-full">
-                <button className="">X</button>
+              <div
+                className="flex justify-center items-center absolute top-0.5 right-0.5 p-3 text-sm bg-red-300 w-5 h-5 rounded-full"
+                onClick={() => handleDelete(item.id!)}
+              >
+                <p className="">X</p>
               </div>
             </div>
           ))}
