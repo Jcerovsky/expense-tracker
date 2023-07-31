@@ -14,6 +14,7 @@ function Home() {
   const [expensesData, setExpensesData] = useState<expensesCollectionProps[]>(
     [],
   );
+  const [spendingToday, setSpendingToday] = useState<string>();
 
   const fetchData = () => {
     FetchData()
@@ -27,14 +28,19 @@ function Home() {
     fetchData();
   }, [context?.userId]);
 
-  const userName = auth.currentUser?.displayName?.split(" ")[0];
-
-  const filteredExpensesByUser = expensesData?.filter(
+  const filteredByUser = expensesData?.filter(
     (item) => context?.userId === item.uid,
   );
-  const sortedExpensesByDate = filteredExpensesByUser.sort(
+  const sortedByDate = filteredByUser.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
+
+  const filteredByDate = sortedByDate.filter((item) => item.date === getDate());
+
+  useEffect(() => {
+    const filtered = filteredByDate.reduce((total, acc) => total + acc.cost, 0);
+    setSpendingToday(formatNumber(filtered));
+  }, [filteredByDate]);
 
   const handleDelete = async (id: string) => {
     await deleteData(id);
@@ -44,9 +50,12 @@ function Home() {
     <div className="p-3 bg-blue-300 w-full">
       <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
       <div>
-        <p>Welcome back {userName}, </p>
+        <div className="">
+          <p>Spending today</p>
+          <p>{spendingToday}</p>
+        </div>
         <div className="flex flex-col gap-2">
-          {sortedExpensesByDate.map((item) => (
+          {sortedByDate.map((item) => (
             <div
               className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 relative wrap"
               key={crypto.randomUUID()}
