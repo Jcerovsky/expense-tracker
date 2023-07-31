@@ -50,11 +50,11 @@ function Home() {
     <div className="p-3 bg-blue-300 w-full">
       <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
       <div>
-        <div className="">
+        <div className="bg-teal-300 p-1 pl-4 pr-4 rounded-2xl inline-flex flex-col gap-1 items-center justify-center ">
           <p>Spending today</p>
-          <p>{spendingToday}</p>
+          <p className="mr-auto">${spendingToday}</p>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-2">
           {sortedByDate.map((item) => (
             <div
               className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 relative wrap"
