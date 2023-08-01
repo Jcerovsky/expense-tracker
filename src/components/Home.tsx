@@ -9,27 +9,16 @@ import ExpenseIncomeItem from "./ExpenseIncomeItem";
 
 function Home() {
   const context = useContext(UserContext);
-  const [expensesData, setExpensesData] = useState<expensesCollectionProps[]>(
-    [],
-  );
   const [spendingToday, setSpendingToday] = useState<string>("");
 
-  const fetchData = () => {
-    FetchData()
-      .then((data) => {
-        setExpensesData(data!);
-      })
-      .catch((err) => context?.setErrorMessage(err as string));
-  };
-
   useEffect(() => {
-    fetchData();
+    context?.fetchData();
   }, [context?.userId]);
 
-  const filteredByUser = expensesData?.filter(
+  const filteredByUser = context?.expensesData?.filter(
     (item) => context?.userId === item.uid,
   );
-  const sortedByDate = filteredByUser.sort(
+  const sortedByDate = filteredByUser!.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
@@ -53,11 +42,7 @@ function Home() {
         </div>
         <div className="flex flex-col gap-2 mt-2">
           {sortedByDate.map((item) => (
-            <ExpenseIncomeItem
-              item={item}
-              fetchData={fetchData}
-              key={crypto.randomUUID()}
-            />
+            <ExpenseIncomeItem item={item} key={crypto.randomUUID()} />
           ))}
         </div>
       </div>

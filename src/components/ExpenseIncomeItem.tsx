@@ -2,16 +2,18 @@ import { expensesCategories } from "../utils/categories";
 import { getDate, getYesterdayDate } from "../utils/getDate";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 import { deleteData, expensesCollectionProps } from "../utils/firebase";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 interface Props {
   item: expensesCollectionProps;
-  fetchData: () => void;
 }
 
-function ExpenseIncomeItem({ item, fetchData }: Props) {
+function ExpenseIncomeItem({ item }: Props) {
+  const context = useContext(UserContext);
   const handleDelete = async (id: string) => {
     await deleteData(id);
-    fetchData();
+    context?.fetchData();
   };
 
   return (
