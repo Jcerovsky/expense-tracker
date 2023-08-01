@@ -1,11 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "./ErrorMessage";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { UserContext } from "../context/UserContext";
 
 function UserSignUp() {
-  const [errorMsg, setErrorMsg] = useState<string>("");
   const context = useContext(UserContext);
 
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -20,9 +19,9 @@ function UserSignUp() {
     const auth = getAuth();
 
     if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
-      setErrorMsg("Passwords do not match");
+      context?.setErrorMessage("Passwords do not match");
     } else if (usernameRef.current && usernameRef.current.value.length < 4) {
-      setErrorMsg("Username must be at least 4 characters long");
+      context?.setErrorMessage("Username must be at least 4 characters long");
     }
 
     createUserWithEmailAndPassword(
@@ -36,14 +35,17 @@ function UserSignUp() {
       })
       .catch((error) => {
         if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-          setErrorMsg("Account with this email already exists");
+          context?.setErrorMessage("Account with this email already exists");
         }
       });
   };
 
   return (
     <div className="bg-gray-100">
-      <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+      <ErrorMessage
+        errorMessage={context?.errorMessage}
+        setErrorMessage={context?.setErrorMessage}
+      />
 
       <form
         action=""

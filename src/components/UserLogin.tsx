@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 function UserLogin() {
-  const [errorMsg, setErrorMsg] = useState<string>("");
   const context = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ function UserLogin() {
         context && context.setUserId(result.user.uid);
       })
       .catch((err) => {
-        setErrorMsg(err);
+        context?.setErrorMessage(err);
       });
   };
 
@@ -38,7 +37,7 @@ function UserLogin() {
         context && context.setUserId(result.user.uid);
       })
       .catch((err) => {
-        setErrorMsg(err);
+        context?.setErrorMessage(err);
       });
   };
 
@@ -65,14 +64,17 @@ function UserLogin() {
       }
     } catch (err) {
       if (err.message === "Firebase: Error (auth/wrong-password).") {
-        setErrorMsg("Wrong password");
+        context?.setErrorMessage("Wrong password");
       }
     }
   };
 
   return (
     <div className="h-screen text-xl p-12 max-w-lg ml-auto mr-auto ">
-      <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+      <ErrorMessage
+        errorMessage={context?.errorMessage}
+        setErrorMessage={context?.setErrorMessage}
+      />
       <h1 className="mb-4">Sign in</h1>
       <form action="" className="flex flex-col gap-3  ">
         <input

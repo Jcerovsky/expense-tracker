@@ -6,7 +6,6 @@ import { ErrorMessage } from "./ErrorMessage";
 
 function InputForm() {
   const context = useContext(UserContext);
-  const [errorMsg, setErrorMsg] = useState<string>("");
   const [formData, setFormData] = useState<expensesCollectionProps>({
     item: "",
     cost: 0,
@@ -37,7 +36,7 @@ function InputForm() {
         uid: context?.userId || null,
       });
     } catch (err) {
-      setErrorMsg(err as string);
+      context?.setErrorMessage(err as string);
     }
   };
 
@@ -59,7 +58,10 @@ function InputForm() {
 
   return (
     <div>
-      <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+      <ErrorMessage
+        errorMessage={context?.errorMessage}
+        setErrorMessage={context?.setErrorMessage}
+      />
       <form
         action=""
         className="border-8 flex flex-col justify-center  rounded-lg gap-2 p-3 cursor-pointer"

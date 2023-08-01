@@ -49,10 +49,10 @@ function Navbar() {
         {user ? (
           <>
             <li className="hover:underline hover:scale-90 ">
-              <Link to="/form">Expenses</Link>
+              <Link to="/">Expenses</Link>
             </li>
             <li className="hover:underline hover:scale-90">
-              <Link to="/form">Dashboard</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li className="hover:underline hover:scale-90">
               <Link to="/form">Add expense</Link>

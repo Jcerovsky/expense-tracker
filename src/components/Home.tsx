@@ -9,18 +9,17 @@ import ExpenseIncomeItem from "./ExpenseIncomeItem";
 
 function Home() {
   const context = useContext(UserContext);
-  const [errorMsg, setErrorMsg] = useState<string>("");
   const [expensesData, setExpensesData] = useState<expensesCollectionProps[]>(
     [],
   );
-  const [spendingToday, setSpendingToday] = useState<string>();
+  const [spendingToday, setSpendingToday] = useState<string>("");
 
   const fetchData = () => {
     FetchData()
       .then((data) => {
         setExpensesData(data!);
       })
-      .catch((err) => setErrorMsg(err as string));
+      .catch((err) => context?.setErrorMessage(err as string));
   };
 
   useEffect(() => {
@@ -43,7 +42,10 @@ function Home() {
 
   return (
     <div className="p-3 bg-blue-300 w-full">
-      <ErrorMessage errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+      <ErrorMessage
+        errorMessage={context?.errorMessage}
+        setErrorMessage={context?.setErrorMessage}
+      />
       <div>
         <div className="bg-teal-300 p-1 pl-4 pr-4 text-xs rounded-2xl inline-flex gap-1 items-center justify-center mb-3">
           <p>Spending today</p>
