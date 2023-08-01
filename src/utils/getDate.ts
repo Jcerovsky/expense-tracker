@@ -5,7 +5,7 @@ export const getDate = () => {
   return `${year}-${month}-${date}`;
 };
 
-export const isYesterday = () => {
+export const getYesterdayDate = () => {
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -17,5 +17,3 @@ export const isYesterday = () => {
     yesterday.getMonth() + 1,
   ).padStart(2, "0")}-${String(yesterday.getDate()).padStart(2, "0")}`;
 };
-
-console.log(isYesterday());

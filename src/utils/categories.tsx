@@ -10,7 +10,7 @@ import {
 import { LuSofa } from "react-icons/lu";
 import { BiShoppingBag } from "react-icons/bi";
 
-export const categories = {
+export const expensesCategories = {
   travel: <BsAirplane />,
   health: <PiHeartbeat />,
   other: <RiMoneyDollarCircleLine />,
