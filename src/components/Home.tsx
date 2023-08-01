@@ -1,5 +1,3 @@
-import { expensesCollectionProps, FetchData } from "../utils/firebase";
-
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
