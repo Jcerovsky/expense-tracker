@@ -1,8 +1,5 @@
-
 function Dashboard(props) {
-    return (
-        <div></div>
-    );
+  return <div></div>;
 }
 
 export default Dashboard;

@@ -1,13 +1,9 @@
 interface Props {
-    category: string
+  category: string;
 }
 
-
-function InputCategory({category}: Props) {
-    return (
-            <option value={category}>{category}</option>
-
-    );
+function InputCategory({ category }: Props) {
+  return <option value={category}>{category}</option>;
 }
 
-export default InputCategory
+export default InputCategory;
