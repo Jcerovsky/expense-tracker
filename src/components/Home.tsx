@@ -13,14 +13,13 @@ function Home() {
     context?.fetchData();
   }, [context?.userId]);
 
-  const filteredByUser = context?.expensesData?.filter(
-    (item) => context?.userId === item.uid,
-  );
-  const sortedByDate = filteredByUser!.sort(
+  const sortedByDate = context?.filteredByUser.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
-  const filteredByDate = sortedByDate.filter((item) => item.date === getDate());
+  const filteredByDate = sortedByDate!.filter(
+    (item) => item.date === getDate(),
+  );
 
   useEffect(() => {
     const filtered = filteredByDate.reduce((total, acc) => total + acc.cost, 0);

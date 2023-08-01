@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import LoadingScreen from "./components/LoadingScreen";
 import { UserContext } from "./context/UserContext";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const [authChecked, setAuthChecked] = useState<boolean>(false);
@@ -46,6 +47,7 @@ function App() {
         <Route path="/form" element={<InputForm />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/signup" element={<UserSignUp />}></Route>
+        <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/test" element={<LoadingScreen />}></Route>
       </Routes>
     </div>

@@ -11,6 +11,7 @@ interface UserContextProps {
     React.SetStateAction<expensesCollectionProps[]>
   >;
   fetchData: () => void;
+  filteredByUser: expensesCollectionProps[];
 }
 
 export const UserContext = createContext<UserContextProps | null>(null);
@@ -30,6 +31,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       .catch((err) => setErrorMessage(err as string));
   };
 
+  const filteredByUser = expensesData?.filter((item) => userId === item.uid);
+
   return (
     <UserContext.Provider
       value={{
@@ -40,6 +43,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         expensesData,
         setExpensesData,
         fetchData,
+        filteredByUser,
       }}
     >
       {children}
