@@ -6,24 +6,18 @@ import UserLogin from "./components/UserLogin";
 import UserSignUp from "./components/UserSignUp";
 import { auth } from "./utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingScreen from "./components/LoadingScreen";
-import { UserContext } from "./context/UserContext";
 import Dashboard from "./components/Dashboard";
 
 function App() {
   const [authChecked, setAuthChecked] = useState<boolean>(false);
   const navigate = useNavigate();
-  const context = useContext(UserContext);
 
   useEffect(() => {
-    if (
-      auth.currentUser === null &&
-      window.location.pathname !== "/signup" &&
-      context?.userId !== null
-    ) {
-      setAuthChecked(true);
+    if (auth.currentUser === null && window.location.pathname !== "/signup") {
       navigate("/login");
+      setAuthChecked(true);
     } else {
       setAuthChecked(true);
     }
@@ -43,12 +37,12 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        {auth.currentUser && <Route path="/" element={<Home />} />}
         <Route path="/form" element={<InputForm />} />
-        <Route path="/login" element={<UserLogin />} />
-        <Route path="/signup" element={<UserSignUp />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/test" element={<LoadingScreen />}></Route>
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/signup" element={<UserSignUp />}></Route>
       </Routes>
     </div>
   );

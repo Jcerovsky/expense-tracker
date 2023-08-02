@@ -19,19 +19,19 @@ function ExpenseIncomeItem({ item }: Props) {
 
   return (
     <>
-      <div className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-2 relative">
-        <span className="text-2xl bg-purple-700 text-white p-2 rounded-xl">
+      <div className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-3 relative">
+        <span className="text-3xl bg-purple-700 text-white p-2 rounded-xl">
           {
             expensesCategories[
               item.category.toLowerCase() as keyof typeof expensesCategories
             ]
           }
         </span>
-        <div className="flex flex-col justify-center items-left ml-2 ">
-          <p className="text-xl mt-2">{item.item.to}</p>
+        <div className="flex flex-col justify-center items-left ml-2">
+          <p className="text-xl mt-2">{item.item}</p>
           <p>{item.description}</p>
         </div>
-        <p className="absolute top-0 left-0.5 text-xs ">
+        <p className="absolute top-0 left-1 text-xs ">
           {item.date === getDate()
             ? "Today"
             : item.date === getYesterdayDate()

@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useState } from "react";
 import { expensesCollectionProps, FetchData } from "../utils/firebase";
 
-interface UserContextProps {
+export interface UserContextProps {
   userId: string | null;
   setUserId: React.Dispatch<React.SetStateAction<string | null>>;
   errorMessage: string | undefined;

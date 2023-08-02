@@ -17,5 +17,3 @@ export const calculateDateFromTimeframe = (
     "0",
   )}-${String(date.getDate()).padStart(2, "0")}`;
 };
-
-console.log(calculateDateFromTimeframe("month"));
