@@ -24,6 +24,7 @@ function UserLogin() {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         context && context.setUserId(result.user.uid);
+        navigate("/");
       })
       .catch((err) => {
         context?.setErrorMessage(err);
@@ -127,7 +128,10 @@ function UserLogin() {
       </button>
       <button
         className="border-2 rounded-full p-3 flex items-center gap-2 justify-center w-full mt-3 hover:bg-gray-100"
-        onClick={FacebookLogin}
+        onClick={async () => {
+          await FacebookLogin();
+          await navigate("/");
+        }}
       >
         <AiFillFacebook className="text-2xl text-blue-600" />
         Sign in with Facebook

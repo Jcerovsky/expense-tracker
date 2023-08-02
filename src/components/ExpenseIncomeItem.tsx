@@ -19,7 +19,7 @@ function ExpenseIncomeItem({ item }: Props) {
 
   return (
     <>
-      <div className="flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-3 relative">
+      <div className="container flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-3 relative">
         <span className="text-3xl bg-purple-700 text-white p-2 rounded-xl">
           {
             expensesCategories[
@@ -31,7 +31,10 @@ function ExpenseIncomeItem({ item }: Props) {
           <p className="text-xl mt-2">{item.item}</p>
           <p>{item.description}</p>
         </div>
-        <p className="absolute top-0 left-1 text-xs ">
+        <p
+          className="absolute text-xs bg-blue-200 rounded-xl pl-1 pr-1"
+          style={item.description ? { bottom: 20 } : { bottom: 16 }}
+        >
           {item.date === getDate()
             ? "Today"
             : item.date === getYesterdayDate()
@@ -40,7 +43,7 @@ function ExpenseIncomeItem({ item }: Props) {
         </p>
         <p className="text-xl bold ml-auto">${formatNumber(item.cost)}</p>
         <RiDeleteBin6Line
-          className=" absolute top-0 right-0 text-l text-red-600"
+          className=" absolute top-0 right-0 text-l text-red-600 "
           onClick={() => handleDelete(item.id!)}
         />
       </div>
