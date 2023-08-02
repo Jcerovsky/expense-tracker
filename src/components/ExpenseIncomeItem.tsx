@@ -2,7 +2,7 @@ import { expensesCategories } from "../utils/categories";
 import { getDate, getYesterdayDate } from "../utils/getDate";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 import { deleteData, expensesCollectionProps } from "../utils/firebase";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -11,6 +11,7 @@ interface Props {
 }
 
 function ExpenseIncomeItem({ item }: Props) {
+  const [isHovering, setIsHovering] = useState<boolean>(false);
   const context = useContext(UserContext);
   const handleDelete = async (id: string) => {
     await deleteData(id);
@@ -19,7 +20,11 @@ function ExpenseIncomeItem({ item }: Props) {
 
   return (
     <>
-      <div className="container flex gap-2 border-2 bg-gray-200 rounded-xl items-center justify-left p-2 relative">
+      <div
+        className="container flex gap-2 border-2 bg-gray-200 rounded-xl items-center justify-left p-2 relative"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         <span className="text-3xl bg-purple-700 text-white p-2 rounded-xl">
           {
             expensesCategories[
@@ -44,10 +49,13 @@ function ExpenseIncomeItem({ item }: Props) {
             : item.date}
         </p>
         <p className="text-xl bold ml-auto">${formatNumber(item.cost)}</p>
-        <RiDeleteBin6Line
-          className=" absolute top-0 right-0 text-l text-red-600 "
-          onClick={() => handleDelete(item.id!)}
-        />
+
+        {isHovering && (
+          <RiDeleteBin6Line
+            className=" absolute top-0 right-0 text-l text-red-600 "
+            onClick={() => handleDelete(item.id!)}
+          />
+        )}
       </div>
     </>
   );
