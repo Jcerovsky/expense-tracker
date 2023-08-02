@@ -19,7 +19,7 @@ function ExpenseIncomeItem({ item }: Props) {
 
   return (
     <>
-      <div className="container flex gap-2 border-2 bg-gray-200 rounded-md items-center justify-left p-3 relative">
+      <div className="container flex gap-2 border-2 bg-gray-200 rounded-xl items-center justify-left p-2 relative">
         <span className="text-3xl bg-purple-700 text-white p-2 rounded-xl">
           {
             expensesCategories[
@@ -28,12 +28,14 @@ function ExpenseIncomeItem({ item }: Props) {
           }
         </span>
         <div className="flex flex-col justify-center items-left ml-2">
-          <p className="text-xl mt-2">{item.item}</p>
-          <p>{item.description}</p>
+          <p className="text-xl mt-2 justify-self-center">{item.item}</p>
+          <p className="opacity-50 text-xs text-ellipsis max-w-xs">
+            {item.description}
+          </p>
         </div>
         <p
-          className="absolute text-xs bg-blue-200 rounded-xl pl-1 pr-1"
-          style={item.description ? { bottom: 20 } : { bottom: 16 }}
+          className="absolute text-xs top-0 left-0 bg-yellow-300 rounded-xl pl-1 pr-1  "
+          style={{ top: "-0.7rem" }}
         >
           {item.date === getDate()
             ? "Today"

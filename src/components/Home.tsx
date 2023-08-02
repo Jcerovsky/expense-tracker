@@ -37,8 +37,8 @@ function Home() {
           <p>Spending today</p>
           <p className="mr-auto">${spendingToday}</p>
         </div>
-        <div className="flex flex-col gap-2 mt-2">
-          {sortedByDate.map((item) => (
+        <div className="flex flex-col gap-3 mt-2">
+          {sortedByDate!.map((item) => (
             <ExpenseIncomeItem item={item} key={crypto.randomUUID()} />
           ))}
         </div>
