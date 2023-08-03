@@ -24,6 +24,10 @@ function App() {
     }
   }, [navigate]);
 
+  const signout = async () => {
+    await auth.signOut();
+  };
+
   if (!authChecked) {
     return (
       <div className="flex justify-center content-center h-screen bg-blue-300">
@@ -32,6 +36,14 @@ function App() {
         </h1>
       </div>
     );
+  }
+
+  if (
+    window.location.pathname === "/login" ||
+    window.location.pathname === "/signup"
+  ) {
+    signout().then();
+    console.log("signed out");
   }
 
   return (
