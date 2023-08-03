@@ -4,10 +4,12 @@ import { ErrorMessage } from "./ErrorMessage";
 import { getDate } from "../utils/getDate";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 import ExpenseIncomeItem from "./ExpenseIncomeItem";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const context = useContext(UserContext);
   const [spendingToday, setSpendingToday] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     context?.fetchData();
@@ -33,11 +35,20 @@ function Home() {
         setErrorMessage={context?.setErrorMessage}
       />
       <div>
-        <div className="bg-teal-300 p-1 pl-4 pr-4 text-xs rounded-2xl inline-flex gap-1 items-center justify-center mb-3">
-          <p>Spending today</p>
-          <p className="mr-auto">${spendingToday}</p>
+        <div className=" p-1 pl-4 pr-4 text-xs rounded-2xl flex gap-1 items-start justify-center mb-3">
+          <div className="flex self-center p-2 bg-teal-300 rounded-md">
+            <p className="">Spending today</p>
+            <p className="mr-auto">${spendingToday}</p>
+          </div>
+
+          <button
+            className="ml-auto p-2 self-center bg-teal-300 rounded-md"
+            onClick={() => navigate("/form")}
+          >
+            test
+          </button>
         </div>
-        <div className="flex flex-col gap-3 mt-2">
+        <div className="flex flex-col gap-5 mt-4">
           {sortedByDate!.map((item) => (
             <ExpenseIncomeItem item={item} key={crypto.randomUUID()} />
           ))}

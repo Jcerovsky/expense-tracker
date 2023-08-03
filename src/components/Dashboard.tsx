@@ -22,9 +22,9 @@ function Dashboard() {
     e.preventDefault();
 
     setFilteredItems(
-      context?.filteredByUser.filter(
-        (item) => inputRefFrom.current!.value <= item.date,
-      ),
+      context?.filteredByUser
+        .filter((item) => inputRefFrom.current!.value <= item.date)
+        .filter((item) => inputRefTo.current!.value >= item.date),
     );
     console.log("fitered", filteredItems);
   };
@@ -44,7 +44,7 @@ function Dashboard() {
       </div>
       <div>
         <p>Total spending from </p>
-        <p>${filteredByDateInput!.reduce((a, b) => a + b.cost, 0)}</p>
+        <p>${filteredItems!.reduce((a, b) => a + b.cost, 0)}</p>
 
         {filteredByDateInput!.length === 0
           ? "Zero expenses or income found."
