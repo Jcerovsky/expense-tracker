@@ -9,6 +9,7 @@ import {
 } from "react-icons/io5";
 import { LuSofa } from "react-icons/lu";
 import { BiShoppingBag } from "react-icons/bi";
+import { TbPigMoney } from "react-icons/tb";
 
 export const expensesCategories = {
   travel: <BsAirplane />,
@@ -20,4 +21,5 @@ export const expensesCategories = {
   home: <LuSofa />,
   shopping: <IoCartOutline />,
   groceries: <BiShoppingBag />,
+  income: <TbPigMoney />,
 };

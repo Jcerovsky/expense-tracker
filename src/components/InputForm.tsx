@@ -42,6 +42,7 @@ function InputForm() {
 
   const categories = [
     "Select",
+    "Income",
     "Groceries",
     "Shopping",
     "Eating Out",
@@ -75,7 +76,7 @@ function InputForm() {
           id="item"
           name="item"
           className={inputStyle}
-          placeholder=""
+          placeholder="Groceries"
           value={formData?.item}
           onChange={(e) =>
             setFormData((prevState) => ({
@@ -84,13 +85,13 @@ function InputForm() {
             }))
           }
         />
-        <label htmlFor="cost">How much was it? </label>
+        <label htmlFor="cost">Amount</label>
         <input
           type="number"
           id="cost"
           name="cost"
           className={inputStyle}
-          placeholder="$"
+          placeholder="$$$"
           onChange={(e) =>
             setFormData((prevState) => ({
               ...prevState,
@@ -124,6 +125,7 @@ function InputForm() {
           type="text"
           id="description"
           name="description"
+          placeholder="Weekly grocery shopping"
           className={inputStyle}
           value={formData?.description}
           onChange={(e) =>
@@ -154,7 +156,7 @@ function InputForm() {
           className={`${inputStyle} active:scale-90`}
           onClick={(event) => handleSubmit(event)}
         >
-          Add expense
+          Add
         </button>
       </form>
     </div>
