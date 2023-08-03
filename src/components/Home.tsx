@@ -45,7 +45,7 @@ function Home() {
             className="ml-auto p-2 self-center bg-teal-300 rounded-md"
             onClick={() => navigate("/form")}
           >
-            test
+            Add more
           </button>
         </div>
         <div className="flex flex-col gap-5 mt-4">
