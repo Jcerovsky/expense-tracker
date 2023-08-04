@@ -1,4 +1,3 @@
-import InputCategory from "./InputCategory";
 import { useState, MouseEvent, useRef, useContext } from "react";
 import { addData, expensesCollectionProps } from "../utils/firebase";
 import { UserContext } from "../context/UserContext";
@@ -39,8 +38,6 @@ function ExpenseForm() {
       context?.setErrorMessage(err as string);
     }
   };
-
-  const categories = ["Select", "Income"];
 
   const inputStyle =
     "border-2 cursor-pointer rounded-lg text-xl p-2 hover:shadow-inner";
@@ -94,18 +91,14 @@ function ExpenseForm() {
           name="category"
           id="category"
           className={inputStyle}
-          value={formData?.category}
+          value="Income"
           onChange={(e) =>
             setFormData((prevState) => ({
               ...prevState,
               category: e.target.value,
             }))
           }
-        >
-          {categories.map((category) => (
-            <InputCategory key={crypto.randomUUID()} category={category} />
-          ))}
-        </select>
+        ></select>
         <label htmlFor="description" className="cursor-pointer">
           Description
         </label>
