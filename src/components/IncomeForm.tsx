@@ -8,7 +8,7 @@ function ExpenseForm() {
   const [formData, setFormData] = useState<expensesCollectionProps>({
     item: "",
     cost: 0,
-    category: "",
+    category: "Income",
     description: "",
     date: "",
     uid: context?.userId || null,
@@ -29,7 +29,7 @@ function ExpenseForm() {
         item: "",
         date: "",
         cost: 0,
-        category: "",
+        category: "Income",
         description: "",
         id: "",
         uid: context?.userId || null,
@@ -84,21 +84,7 @@ function ExpenseForm() {
             }))
           }
         />
-        <label htmlFor="category" className="cursor-pointer">
-          Category
-        </label>
-        <select
-          name="category"
-          id="category"
-          className={inputStyle}
-          value="Income"
-          onChange={(e) =>
-            setFormData((prevState) => ({
-              ...prevState,
-              category: e.target.value,
-            }))
-          }
-        ></select>
+        <label htmlFor="category" className="cursor-pointer"></label>
         <label htmlFor="description" className="cursor-pointer">
           Description
         </label>

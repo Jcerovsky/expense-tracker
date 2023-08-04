@@ -77,6 +77,7 @@ function ExpenseForm() {
           className={inputStyle}
           placeholder="Groceries"
           value={formData?.item}
+          required={true}
           onChange={(e) =>
             setFormData((prevState) => ({
               ...prevState,
@@ -91,6 +92,7 @@ function ExpenseForm() {
           name="cost"
           className={inputStyle}
           placeholder="$$$"
+          required={true}
           onChange={(e) =>
             setFormData((prevState) => ({
               ...prevState,
@@ -105,6 +107,7 @@ function ExpenseForm() {
           name="category"
           id="category"
           className={inputStyle}
+          required={true}
           value={formData?.category}
           onChange={(e) =>
             setFormData((prevState) => ({
@@ -125,6 +128,7 @@ function ExpenseForm() {
           id="description"
           name="description"
           placeholder="Weekly grocery shopping"
+          required={true}
           className={inputStyle}
           value={formData?.description}
           onChange={(e) =>
@@ -142,6 +146,7 @@ function ExpenseForm() {
           id="date"
           name="date"
           placeholder={formData?.date.toString()}
+          required={true}
           className={inputStyle}
           value={formData?.date}
           onChange={(e) =>
@@ -153,7 +158,7 @@ function ExpenseForm() {
         />
         <button
           className={`${inputStyle} active:scale-90`}
-          onClick={(event) => handleSubmit(event)}
+          onClick={handleSubmit}
         >
           Add
         </button>

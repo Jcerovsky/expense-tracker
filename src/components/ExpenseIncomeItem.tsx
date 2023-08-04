@@ -54,7 +54,7 @@ function ExpenseIncomeItem({ item }: Props) {
             item.category !== "Income" ? { color: "red" } : { color: "green" }
           }
         >
-          {item.category === "Income" ? "+" : "-"} ${formatNumber(item.cost)}
+          {item.category === "Income" ? "+" : "-"}${formatNumber(item.cost)}
         </p>
 
         {isHovering && (
