@@ -52,6 +52,7 @@ function UserLogin() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    context?.setErrorMessage("");
 
     try {
       const result = await signInWithEmailAndPassword(

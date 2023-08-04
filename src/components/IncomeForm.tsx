@@ -4,7 +4,7 @@ import { addData, expensesCollectionProps } from "../utils/firebase";
 import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
 
-function InputForm() {
+function ExpenseForm() {
   const context = useContext(UserContext);
   const [formData, setFormData] = useState<expensesCollectionProps>({
     item: "",
@@ -40,19 +40,7 @@ function InputForm() {
     }
   };
 
-  const categories = [
-    "Select",
-    "Income",
-    "Groceries",
-    "Shopping",
-    "Eating Out",
-    "Entertainment",
-    "Health",
-    "Home",
-    "Travel",
-    "Education",
-    "Other",
-  ];
+  const categories = ["Select", "Income"];
 
   const inputStyle =
     "border-2 cursor-pointer rounded-lg text-xl p-2 hover:shadow-inner";
@@ -69,14 +57,14 @@ function InputForm() {
         ref={formRef}
       >
         <label htmlFor="item" className="cursor-pointer">
-          What did you buy?
+          Item / Source of Income
         </label>
         <input
           type="text"
           id="item"
           name="item"
           className={inputStyle}
-          placeholder="Groceries"
+          placeholder="Salary"
           value={formData?.item}
           onChange={(e) =>
             setFormData((prevState) => ({
@@ -125,7 +113,7 @@ function InputForm() {
           type="text"
           id="description"
           name="description"
-          placeholder="Weekly grocery shopping"
+          placeholder="Weekly income"
           className={inputStyle}
           value={formData?.description}
           onChange={(e) =>
@@ -163,4 +151,4 @@ function InputForm() {
   );
 }
 
-export default InputForm;
+export default ExpenseForm;

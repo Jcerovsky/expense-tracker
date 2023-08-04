@@ -24,7 +24,9 @@ function Home() {
   );
 
   useEffect(() => {
-    const filtered = filteredByDate.reduce((total, acc) => total + acc.cost, 0);
+    const filtered = filteredByDate
+      .filter((item) => item.category !== "Income")
+      .reduce((total, acc) => total + acc.cost, 0);
     setSpendingToday(formatNumber(filtered));
   }, [filteredByDate]);
 

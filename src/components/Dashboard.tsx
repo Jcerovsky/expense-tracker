@@ -4,7 +4,6 @@ import { calculateDateFromTimeframe } from "../utils/calculateDateFromTimeframe"
 import ExpenseIncomeItem from "./ExpenseIncomeItem";
 import { expensesCollectionProps } from "../utils/firebase";
 import Button from "./Button";
-import { data } from "autoprefixer";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 
 function Dashboard() {
@@ -38,7 +37,6 @@ function Dashboard() {
         .filter((item) => inputRefFrom.current!.value <= item.date)
         .filter((item) => inputRefTo.current!.value >= item.date),
     );
-    console.log("fitered", filteredItems);
   };
 
   return (
@@ -95,11 +93,20 @@ function Dashboard() {
       </div>
       <div className="mt-5">
         <span>Total spending in your specified range</span>
-        <p>${formatNumber(filteredItems!.reduce((a, b) => a + b.cost, 0))}</p>
+        <p>
+          $
+          {formatNumber(
+            filteredItems!
+              .filter((item) => item.category !== "Income")
+              .reduce((a, b) => a + b.cost, 0),
+          )}
+        </p>
         <div className="flex flex-col gap-3 mt-5">
           {filteredItems!.length === 0
             ? "Zero expenses or income found."
-            : filteredItems!.map((item) => <ExpenseIncomeItem item={item} />)}
+            : filteredItems!.map((item) => (
+                <ExpenseIncomeItem item={item} key={crypto.randomUUID()} />
+              ))}
         </div>
       </div>
     </div>

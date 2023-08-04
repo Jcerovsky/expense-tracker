@@ -51,10 +51,10 @@ function ExpenseIncomeItem({ item }: Props) {
         <p
           className="text-xl bold ml-auto"
           style={
-            item.category !== "income" ? { color: "red" } : { color: "green" }
+            item.category !== "Income" ? { color: "red" } : { color: "green" }
           }
         >
-          ${formatNumber(item.cost)}
+          {item.category === "Income" ? "+" : "-"} ${formatNumber(item.cost)}
         </p>
 
         {isHovering && (
