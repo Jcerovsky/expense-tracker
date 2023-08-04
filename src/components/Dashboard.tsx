@@ -5,6 +5,7 @@ import ExpenseIncomeItem from "./ExpenseIncomeItem";
 import { expensesCollectionProps } from "../utils/firebase";
 import Button from "./Button";
 import { data } from "autoprefixer";
+import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 
 function Dashboard() {
   const context = useContext(UserContext);
@@ -92,12 +93,14 @@ function Dashboard() {
           )}
         </div>
       </div>
-      <div>
-        <p>${filteredItems!.reduce((a, b) => a + b.cost, 0)}</p>
-
-        {filteredItems!.length === 0
-          ? "Zero expenses or income found."
-          : filteredItems!.map((item) => <ExpenseIncomeItem item={item} />)}
+      <div className="mt-5">
+        <span>Total spending in your specified range</span>
+        <p>${formatNumber(filteredItems!.reduce((a, b) => a + b.cost, 0))}</p>
+        <div className="flex flex-col gap-3 mt-5">
+          {filteredItems!.length === 0
+            ? "Zero expenses or income found."
+            : filteredItems!.map((item) => <ExpenseIncomeItem item={item} />)}
+        </div>
       </div>
     </div>
   );

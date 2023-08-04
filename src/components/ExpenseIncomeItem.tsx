@@ -48,7 +48,14 @@ function ExpenseIncomeItem({ item }: Props) {
             ? "Yesterday"
             : item.date}
         </p>
-        <p className="text-xl bold ml-auto">${formatNumber(item.cost)}</p>
+        <p
+          className="text-xl bold ml-auto"
+          style={
+            item.category !== "income" ? { color: "red" } : { color: "green" }
+          }
+        >
+          ${formatNumber(item.cost)}
+        </p>
 
         {isHovering && (
           <RiDeleteBin6Line
