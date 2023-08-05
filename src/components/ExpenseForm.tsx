@@ -23,21 +23,26 @@ function ExpenseForm() {
   ) => {
     e.preventDefault();
 
-    try {
-      await addData(formData);
-      formRef.current?.reset();
-      setFormData({
-        item: "",
-        date: "",
-        cost: 0,
-        category: "",
-        description: "",
-        id: "",
-        uid: context?.userId || null,
-      });
-    } catch (err) {
-      context?.setErrorMessage(err as string);
-    }
+    if (formData.item.length < 3) {
+      context?.setErrorMessage("Item needs to be longer");
+      console.log("too short");
+      return;
+    } else if (formData.item.includes(Number))
+      try {
+        await addData(formData);
+        formRef.current?.reset();
+        setFormData({
+          item: "",
+          date: "",
+          cost: 0,
+          category: "",
+          description: "",
+          id: "",
+          uid: context?.userId || null,
+        });
+      } catch (err) {
+        context?.setErrorMessage(err as string);
+      }
   };
 
   const categories = [
@@ -68,7 +73,7 @@ function ExpenseForm() {
         ref={formRef}
       >
         <label htmlFor="item" className="cursor-pointer">
-          Item / Source of Income
+          Item
         </label>
         <input
           type="text"
@@ -77,7 +82,6 @@ function ExpenseForm() {
           className={inputStyle}
           placeholder="Groceries"
           value={formData?.item}
-          required={true}
           onChange={(e) =>
             setFormData((prevState) => ({
               ...prevState,
@@ -92,7 +96,6 @@ function ExpenseForm() {
           name="cost"
           className={inputStyle}
           placeholder="$$$"
-          required={true}
           onChange={(e) =>
             setFormData((prevState) => ({
               ...prevState,
