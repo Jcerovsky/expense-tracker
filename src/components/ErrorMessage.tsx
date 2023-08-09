@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   errorMessage: string | undefined;
@@ -6,11 +6,14 @@ interface Props {
 }
 
 export function ErrorMessage({ errorMessage, setErrorMessage }: Props) {
+  useEffect(() => {
+    setErrorMessage && setErrorMessage("");
+  }, [window.location.pathname]);
   return (
-    <div>
+    <div className="m-5">
       {errorMessage && (
-        <div className="flex justify-center">
-          <div className=" mt-10 bg-red-600 p-6 rounded-md relative inline-block text-center">
+        <div className="text-xl">
+          <div className="  bg-red-600 p-6 rounded-md relative text-center">
             {errorMessage}
             <button
               className="absolute top-1 right-1 p-1 bg-red-300 rounded-2xl w-5 h-5 flex justify-center items-center text-sm"

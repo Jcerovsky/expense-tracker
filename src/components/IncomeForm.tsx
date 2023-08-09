@@ -22,6 +22,13 @@ function ExpenseForm() {
   ) => {
     e.preventDefault();
 
+    if (formData.item.length < 3 || !formData.cost || !formData.date) {
+      context?.setErrorMessage(
+        "One of the following is not filled properly: Item, Cost, Date",
+      );
+      return;
+    }
+
     try {
       await addData(formData);
       formRef.current?.reset();
@@ -54,7 +61,7 @@ function ExpenseForm() {
         ref={formRef}
       >
         <label htmlFor="item" className="cursor-pointer">
-          Item / Source of Income
+          Income
         </label>
         <input
           type="text"

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
 import { getDate } from "../utils/getDate";
@@ -38,7 +38,7 @@ function Home() {
       />
       <div>
         <div className=" p-1 pl-4 pr-4 text-xs rounded-2xl flex gap-1 items-start justify-center mb-3">
-          <div className="flex self-center p-2 bg-teal-300 rounded-md">
+          <div className="flex flex-col self-center p-2 bg-teal-300 rounded-md text-l">
             <p className="">Spending today</p>
             <p className="mr-auto">${spendingToday}</p>
           </div>

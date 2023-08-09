@@ -56,7 +56,7 @@ function Navbar() {
               <Link to="/dashboard">Dashboard</Link>
             </li>
             <li className="hover:underline hover:scale-90">
-              <Link to="/form">Add expense</Link>
+              <Link to="/form">Add</Link>
             </li>
             <li className="hover:underline hover:scale-90">
               <Link to="/budget">Budget</Link>

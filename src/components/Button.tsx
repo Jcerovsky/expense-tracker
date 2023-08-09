@@ -14,7 +14,7 @@ function Button({ children, color, handleClick }: Props) {
 
   return (
     <button
-      className="border-2 rounded-2xl p-3 hover:shadow-inner hover:scale-105"
+      className="border-2 rounded-2xl p-2 hover:shadow-inner hover:scale-105"
       style={styles}
       onClick={handleClick}
     >

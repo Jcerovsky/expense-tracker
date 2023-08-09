@@ -23,26 +23,27 @@ function ExpenseForm() {
   ) => {
     e.preventDefault();
 
-    if (formData.item.length < 3) {
-      context?.setErrorMessage("Item needs to be longer");
-      console.log("too short");
+    if (formData.item.length < 3 || !formData.cost || !formData.date) {
+      context?.setErrorMessage(
+        "One of the following is not filled properly: Item, Cost, Date",
+      );
       return;
-    } else if (formData.item.includes(Number))
-      try {
-        await addData(formData);
-        formRef.current?.reset();
-        setFormData({
-          item: "",
-          date: "",
-          cost: 0,
-          category: "",
-          description: "",
-          id: "",
-          uid: context?.userId || null,
-        });
-      } catch (err) {
-        context?.setErrorMessage(err as string);
-      }
+    }
+    try {
+      await addData(formData);
+      formRef.current?.reset();
+      setFormData({
+        item: "",
+        date: "",
+        cost: 0,
+        category: "",
+        description: "",
+        id: "",
+        uid: context?.userId || null,
+      });
+    } catch (err) {
+      context?.setErrorMessage(err as string);
+    }
   };
 
   const categories = [

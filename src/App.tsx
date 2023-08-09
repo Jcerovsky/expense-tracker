@@ -30,7 +30,7 @@ function App() {
 
   if (!authChecked) {
     return (
-      <div className="flex justify-center content-center h-full bg-blue-300">
+      <div className="flex justify-center content-center h-screen bg-blue-300">
         <h1 className="animate-bounce text-4xl items-center self-center ">
           Loading...
         </h1>
