@@ -14,7 +14,7 @@ function ExpenseIncomeItem({ item }: Props) {
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const context = useContext(UserContext);
   const handleDelete = async (id: string) => {
-    await deleteData(id);
+    await deleteData(id, context);
     context?.fetchData();
   };
 

@@ -30,7 +30,7 @@ function ExpenseForm() {
     }
 
     try {
-      await addData(formData);
+      await addData(formData, context);
       formRef.current?.reset();
       setFormData({
         item: "",
@@ -128,6 +128,7 @@ function ExpenseForm() {
         />
         <button
           className={`${inputStyle} active:scale-90`}
+          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
           onClick={(event) => handleSubmit(event)}
         >
           Add
