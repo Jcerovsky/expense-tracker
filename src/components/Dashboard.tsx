@@ -4,7 +4,6 @@ import { calculateDateFromTimeframe } from "../utils/calculateDateFromTimeframe"
 import ExpenseIncomeItem from "./ExpenseIncomeItem";
 import { expensesCollectionProps } from "../utils/firebase";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
-import Button from "./Button";
 
 function Dashboard() {
   const context = useContext(UserContext);
@@ -12,6 +11,9 @@ function Dashboard() {
   const inputRefTo = useRef<HTMLInputElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
+  const [originalItems, setOriginalItems] = useState<
+    expensesCollectionProps[] | undefined
+  >(context?.filteredByUser);
   const [filteredItems, setFilteredItems] = useState<
     expensesCollectionProps[] | undefined
   >(context?.filteredByUser);
@@ -19,10 +21,11 @@ function Dashboard() {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   const getItemsFromButtonSelection = (date: "week" | "month" | "year") => {
+    getAllItems();
     setIsCalendarTicked(false);
     checkboxRef.current!.checked = false;
     return setFilteredItems(
-      context?.filteredByUser.filter(
+      filteredItems?.filter(
         (item) => item.date > calculateDateFromTimeframe(date),
       ),
     );
@@ -32,12 +35,21 @@ function Dashboard() {
     setFilteredItems(context?.filteredByUser);
   };
 
-  const getExpenses = () => {
-    return filteredItems?.filter((item) => item.category !== "Income");
+  const clearFilters = () => {
+    setSelectedOption("");
+    setIsCalendarTicked(false);
+    checkboxRef.current!.checked = false;
   };
 
-  const getIncome = () => {
-    return filteredItems?.filter((item) => item.category === "Income");
+  const getIncomeOrExpenses = (category: "Income" | "Expenses") => {
+    clearFilters();
+    category === "Income"
+      ? setFilteredItems(
+          context?.filteredByUser.filter((item) => item.category === "Income"),
+        )
+      : setFilteredItems(
+          context?.filteredByUser.filter((item) => item.category !== "Income"),
+        );
   };
 
   const getSpendingAmount = () => {
@@ -65,20 +77,23 @@ function Dashboard() {
   };
 
   return (
-    <div className="bg-gray-100 p-8">
+    <div className="bg-gray-100 p-5">
       <div className="flex flex-wrap mb-4 space-x-2">
-        <Button handleClick={() => getAllItems()}>See all</Button>
-        <Button
-          handleClick={() => {
-            getAllItems();
-            setFilteredItems(getIncome());
+        <button onClick={() => getAllItems()}>See all</button>
+        <button
+          onClick={() => {
+            getIncomeOrExpenses("Income");
           }}
         >
           See income
-        </Button>
-        <Button handleClick={() => setFilteredItems(getExpenses())}>
+        </button>
+        <button
+          onClick={() => {
+            getIncomeOrExpenses("Expenses");
+          }}
+        >
           See expenses
-        </Button>
+        </button>
       </div>
       <div className="mb-4">
         <label htmlFor="timeframe" className="block text-gray-700 mb-1">
@@ -101,15 +116,21 @@ function Dashboard() {
         </select>
       </div>
       <div className="mb-4">
-        <div className="flex items-center space-x-2">
-          <p className="text-gray-700">Select your own dates</p>
-          <input
-            type="checkbox"
-            ref={checkboxRef}
-            className="p-2"
-            onChange={() => setIsCalendarTicked((prevState) => !prevState)}
-          />
+        <div className="flex items-center space-x-4">
+          <label className="text-gray-700 cursor-pointer">
+            <span className="font-semibold">Select your own dates</span>
+          </label>
+          <label className="flex items-center space-x-1 cursor-pointer">
+            <span className="text-gray-600">Show Calendar</span>
+            <input
+              type="checkbox"
+              ref={checkboxRef}
+              className="w-4 h-4 text-blue-500 border rounded cursor-pointer"
+              onChange={() => setIsCalendarTicked((prevState) => !prevState)}
+            />
+          </label>
         </div>
+
         {isCalendarTicked && (
           <div className="mt-4 p-4 bg-white rounded border">
             <form action="">

@@ -43,7 +43,6 @@ function App() {
     window.location.pathname === "/signup"
   ) {
     signout();
-    console.log("signed out");
   }
 
   return (

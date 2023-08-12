@@ -22,7 +22,7 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="flex justify-start p-7 gap-2 md:text-xl lg:text-2xl bg-slate-600 p-4 ">
+    <nav className="flex justify-start p-7 gap-2 md:text-xl lg:text-2xl bg-gradient-to-r from-teal-300 to-blue-500 p-4 ">
       {user && user.photoURL && (
         <img
           src={user.photoURL || ""}

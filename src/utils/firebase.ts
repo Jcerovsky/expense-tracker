@@ -8,6 +8,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import { UserContextProps } from "../context/UserContext";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -34,7 +35,7 @@ export interface expensesCollectionProps {
   createdAt?: number;
 }
 
-export const FetchData = async () => {
+export const FetchData = async (context: UserContextProps | null) => {
   try {
     const snapshot = await getDocs(expensesRef);
     const expensesArr: expensesCollectionProps[] = snapshot.docs.map(
@@ -55,23 +56,29 @@ export const FetchData = async () => {
     );
     return expensesArr;
   } catch (err) {
-    console.log(err);
+    context?.setErrorMessage(err as string);
   }
 };
 
-export const addData = async (data: expensesCollectionProps) => {
+export const addData = async (
+  data: expensesCollectionProps,
+  context: UserContextProps | null,
+) => {
   try {
     await addDoc(expensesRef, data);
   } catch (err) {
-    console.log(err);
+    context?.setErrorMessage(err as string);
   }
 };
 
-export const deleteData = async (id: string) => {
+export const deleteData = async (
+  id: string,
+  context: UserContextProps | null,
+) => {
   try {
     const docRef = doc(db, "expenses", id);
     await deleteDoc(docRef);
   } catch (err) {
-    console.log(err);
+    context?.setErrorMessage(err as string);
   }
 };

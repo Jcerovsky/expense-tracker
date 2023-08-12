@@ -30,7 +30,7 @@ function ExpenseForm() {
       return;
     }
     try {
-      await addData(formData);
+      await addData(formData, context);
       formRef.current?.reset();
       setFormData({
         item: "",

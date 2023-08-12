@@ -11,6 +11,7 @@ import { auth } from "../utils/firebase";
 import { ErrorMessage } from "./ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { FirebaseError } from "firebase/app";
 
 function UserLogin() {
   const context = useContext(UserContext);
@@ -64,9 +65,11 @@ function UserLogin() {
         context.setUserId(result.user.uid);
         navigate("/");
       }
-    } catch (err) {
-      if (err.message === "Firebase: Error (auth/wrong-password).") {
-        context?.setErrorMessage("Wrong password");
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        if (err.message === "Firebase: Error (auth/wrong-password).") {
+          context?.setErrorMessage("Wrong password");
+        }
       }
     }
   };

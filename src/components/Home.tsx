@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
 import { getDate } from "../utils/getDate";
@@ -37,19 +37,20 @@ function Home() {
         setErrorMessage={context?.setErrorMessage}
       />
       <div>
-        <div className=" p-1 pl-4 pr-4 text-xs rounded-2xl flex gap-1 items-start justify-center mb-3">
-          <div className="flex flex-col self-center p-2 bg-teal-300 rounded-md text-l">
-            <p className="">Spending today</p>
-            <p className="mr-auto">${spendingToday}</p>
+        <div className="p-2 pl-4 pr-4 text-sm rounded-lg flex gap-2 items-center justify-between mb-3 bg-gradient-to-r from-teal-200 to-teal-300">
+          <div className="flex flex-col p-2 bg-white rounded-md">
+            <p className="text-gray-700 font-semibold">Spending today</p>
+            <p className="text-teal-600 font-bold">${spendingToday}</p>
           </div>
 
           <button
-            className="ml-auto p-2 self-center bg-teal-300 rounded-md"
+            className="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-md transition duration-300 ease-in-out"
             onClick={() => navigate("/form")}
           >
             Add more
           </button>
         </div>
+
         <div className="flex flex-col gap-5 mt-4">
           {sortedByDate!.map((item) => (
             <ExpenseIncomeItem item={item} key={crypto.randomUUID()} />
