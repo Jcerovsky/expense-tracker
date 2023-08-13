@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { calculateDateFromTimeframe } from "../utils/calculateDateFromTimeframe";
 import ExpenseIncomeItem from "./ExpenseIncomeItem";
@@ -20,36 +20,35 @@ function Dashboard() {
   const [isCalendarTicked, setIsCalendarTicked] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("");
 
+  useEffect(() => {
+    setFilteredItems(context?.filteredByUser);
+    setOriginalItems(context?.filteredByUser);
+  }, []);
+
+  useEffect(() => {
+    context?.fetchData();
+  }, [context?.filteredByUser]);
+
   const getItemsFromButtonSelection = (date: "week" | "month" | "year") => {
-    getAllItems();
     setIsCalendarTicked(false);
     checkboxRef.current!.checked = false;
-    return setFilteredItems(
-      filteredItems?.filter(
+    setFilteredItems(
+      originalItems?.filter(
         (item) => item.date > calculateDateFromTimeframe(date),
       ),
     );
   };
 
-  const getAllItems = () => {
-    setFilteredItems(context?.filteredByUser);
-  };
-
-  const clearFilters = () => {
-    setSelectedOption("");
-    setIsCalendarTicked(false);
-    checkboxRef.current!.checked = false;
-  };
-
   const getIncomeOrExpenses = (category: "Income" | "Expenses") => {
-    clearFilters();
-    category === "Income"
-      ? setFilteredItems(
-          context?.filteredByUser.filter((item) => item.category === "Income"),
-        )
-      : setFilteredItems(
-          context?.filteredByUser.filter((item) => item.category !== "Income"),
-        );
+    if (category === "Income") {
+      setFilteredItems(
+        originalItems?.filter((item) => item.category === "Income"),
+      );
+    } else if (category === "Expenses") {
+      setFilteredItems(
+        originalItems?.filter((item) => item.category !== "Income"),
+      );
+    }
   };
 
   const getSpendingAmount = () => {
@@ -74,12 +73,17 @@ function Dashboard() {
         .filter((item) => inputRefFrom.current!.value <= item.date)
         .filter((item) => inputRefTo.current!.value >= item.date),
     );
+    setOriginalItems(
+      context?.filteredByUser
+        .filter((item) => inputRefFrom.current!.value <= item.date)
+        .filter((item) => inputRefTo.current!.value >= item.date),
+    );
   };
 
   return (
     <div className="bg-gray-100 p-5">
       <div className="flex flex-wrap mb-4 space-x-2">
-        <button onClick={() => getAllItems()}>See all</button>
+        <button onClick={() => setFilteredItems(originalItems)}>See all</button>
         <button
           onClick={() => {
             getIncomeOrExpenses("Income");

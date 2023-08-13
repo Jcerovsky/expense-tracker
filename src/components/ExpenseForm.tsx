@@ -63,14 +63,14 @@ function ExpenseForm() {
     "border-2 cursor-pointer rounded-lg text-xl p-2 hover:shadow-inner";
 
   return (
-    <div>
+    <div className="p-3">
       <ErrorMessage
         errorMessage={context?.errorMessage}
         setErrorMessage={context?.setErrorMessage}
       />
       <form
         action=""
-        className="border-8 flex flex-col justify-center  rounded-lg gap-2 p-3 cursor-pointer"
+        className=" flex flex-col justify-center rounded-lg gap-2 p-3 cursor-pointer bg-gradient-to-b from-indigo-400 to-teal-500"
         ref={formRef}
       >
         <label htmlFor="item" className="cursor-pointer">

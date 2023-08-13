@@ -47,20 +47,20 @@ function ExpenseForm() {
   };
 
   const inputStyle =
-    "border-2 cursor-pointer rounded-lg text-xl p-2 hover:shadow-inner";
+    "border-2 cursor-pointer rounded-lg text-md p-2 hover:shadow-inner";
 
   return (
-    <div>
+    <div className="p-2 h-screen">
       <ErrorMessage
         errorMessage={context?.errorMessage}
         setErrorMessage={context?.setErrorMessage}
       />
       <form
         action=""
-        className="border-8 flex flex-col justify-center  rounded-lg gap-2 p-3 cursor-pointer"
+        className=" flex flex-col justify-center rounded-lg gap-2 p-3 cursor-pointer bg-gradient-to-b from-indigo-400 to-teal-500"
         ref={formRef}
       >
-        <label htmlFor="item" className="cursor-pointer">
+        <label htmlFor="item" className="cursor-pointer text-xl">
           Income
         </label>
         <input
@@ -77,7 +77,9 @@ function ExpenseForm() {
             }))
           }
         />
-        <label htmlFor="cost">Amount</label>
+        <label htmlFor="cost" className="text-xl">
+          Amount
+        </label>
         <input
           type="number"
           id="cost"
@@ -91,8 +93,8 @@ function ExpenseForm() {
             }))
           }
         />
-        <label htmlFor="category" className="cursor-pointer"></label>
-        <label htmlFor="description" className="cursor-pointer">
+        <label htmlFor="category" className="cursor-pointer text-xl"></label>
+        <label htmlFor="description" className="cursor-pointer text-xl">
           Description
         </label>
         <input
@@ -109,7 +111,7 @@ function ExpenseForm() {
             }))
           }
         />
-        <label htmlFor="date" className="cursor-pointer">
+        <label htmlFor="date" className="cursor-pointer text-xl">
           Date
         </label>
         <input
@@ -127,7 +129,7 @@ function ExpenseForm() {
           }
         />
         <button
-          className={`${inputStyle} active:scale-90`}
+          className={`${inputStyle} active:scale-90 mt-5`}
           /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
           onClick={(event) => handleSubmit(event)}
         >
