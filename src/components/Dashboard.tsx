@@ -97,6 +97,11 @@ function Dashboard() {
     );
   };
 
+  const handleCalendarTicked = () => {
+    isCalendarTicked && setFilteredItems(context?.filteredByUser);
+    setIsCalendarTicked((prevState) => !prevState);
+  };
+
   if (!context?.filteredByUser || context?.filteredByUser.length === 0) {
     return <NoData />;
   }
@@ -173,7 +178,7 @@ function Dashboard() {
                 type="checkbox"
                 ref={checkboxRef}
                 className="w-4 h-4 text-blue-500 border rounded cursor-pointer"
-                onChange={() => setIsCalendarTicked((prevState) => !prevState)}
+                onChange={handleCalendarTicked}
               />
             </label>
           </div>
