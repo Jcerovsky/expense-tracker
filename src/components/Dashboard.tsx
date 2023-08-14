@@ -86,8 +86,8 @@ function Dashboard() {
     e.preventDefault();
 
     setFilteredItems(
-      context?.filteredByUser
-        .filter((item) => inputRefFrom.current!.value <= item.date)
+      originalItems
+        ?.filter((item) => inputRefFrom.current!.value <= item.date)
         .filter((item) => inputRefTo.current!.value >= item.date),
     );
     setOriginalItems(
@@ -113,13 +113,13 @@ function Dashboard() {
       <div className="bg-white rounded-lg shadow-md p-6 space-y-4 mb-5">
         <div className="flex flex-wrap justify-between">
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
             onClick={() => setFilteredItems(originalItems)}
           >
             See all
           </button>
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+            className="bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-600"
             onClick={() => {
               getIncomeOrExpenses("Income");
             }}
