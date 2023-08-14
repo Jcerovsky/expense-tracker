@@ -61,7 +61,7 @@ function ExpenseForm() {
         ref={formRef}
       >
         <label htmlFor="item" className="cursor-pointer text-xl">
-          Income
+          Source of Income
         </label>
         <input
           type="text"

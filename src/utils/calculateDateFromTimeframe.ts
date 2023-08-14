@@ -1,5 +1,5 @@
 export const calculateDateFromTimeframe = (
-  timeframe: "month" | "year" | "week",
+  timeframe: "month" | "year" | "week" | "future" | "today",
 ) => {
   const today = new Date();
   const date = new Date();

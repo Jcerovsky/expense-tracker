@@ -1,9 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { UserContext } from "../context/UserContext";
 import { calculateDateFromTimeframe } from "../utils/calculateDateFromTimeframe";
 import ExpenseIncomeItem from "./ExpenseIncomeItem";
 import { expensesCollectionProps } from "../utils/firebase";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
+import NoData from "./NoData";
 
 function Dashboard() {
   const context = useContext(UserContext);
@@ -27,17 +34,21 @@ function Dashboard() {
 
   useEffect(() => {
     context?.fetchData();
-  }, [context?.filteredByUser]);
+  }, []);
 
-  const getItemsFromButtonSelection = (date: "week" | "month" | "year") => {
-    setIsCalendarTicked(false);
-    checkboxRef.current!.checked = false;
-    setFilteredItems(
-      originalItems?.filter(
-        (item) => item.date > calculateDateFromTimeframe(date),
-      ),
-    );
-  };
+  const getItemsFromButtonSelection = useCallback(
+    (date: "week" | "month" | "year" | "future" | "today") => {
+      setIsCalendarTicked(false);
+      checkboxRef.current!.checked = false;
+
+      setFilteredItems(
+        context?.filteredByUser?.filter(
+          (item) => item.date >= calculateDateFromTimeframe(date),
+        ),
+      );
+    },
+    [context?.filteredByUser],
+  );
 
   const getIncomeOrExpenses = (category: "Income" | "Expenses") => {
     if (category === "Income") {
@@ -52,18 +63,24 @@ function Dashboard() {
   };
 
   const getSpendingAmount = () => {
-    return filteredItems!
-      .filter((item) => item.category !== "Income")
-      .reduce((a, b) => a + b.cost, 0);
+    if (filteredItems) {
+      return filteredItems
+        ?.filter((item) => item.category !== "Income")
+        .reduce((a, b) => a + b.cost, 0);
+    }
+    return 0;
   };
 
   const getIncomeAmount = () => {
-    return filteredItems!
-      .filter((item) => item.category === "Income")
-      .reduce((a, b) => a + b.cost, 0);
+    if (filteredItems) {
+      return filteredItems
+        ?.filter((item) => item.category === "Income")
+        .reduce((a, b) => a + b.cost, 0);
+    }
+    return 0;
   };
 
-  const getFilteredItems = (
+  const getFilteredItemsFromCalendarSelection = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
@@ -80,98 +97,125 @@ function Dashboard() {
     );
   };
 
+  if (!context?.filteredByUser || context?.filteredByUser.length === 0) {
+    return <NoData />;
+  }
+
+  const wordingForSelectedOption =
+    selectedOption === "today"
+      ? "Cash flow today"
+      : selectedOption === "future"
+      ? "Future cash flow"
+      : `Total cash flow in the last ${selectedOption}`;
+
   return (
     <div className="bg-gray-100 p-5">
-      <div className="flex flex-wrap mb-4 space-x-2">
-        <button onClick={() => setFilteredItems(originalItems)}>See all</button>
-        <button
-          onClick={() => {
-            getIncomeOrExpenses("Income");
-          }}
-        >
-          See income
-        </button>
-        <button
-          onClick={() => {
-            getIncomeOrExpenses("Expenses");
-          }}
-        >
-          See expenses
-        </button>
-      </div>
-      <div className="mb-4">
-        <label htmlFor="timeframe" className="block text-gray-700 mb-1">
-          See movement for
-        </label>
-        <select
-          id="timeframe"
-          className="border rounded p-2 w-full"
-          onChange={(e) => {
-            getItemsFromButtonSelection(
-              e.target.value as "week" | "month" | "year",
-            );
-            setSelectedOption(e.target.value);
-          }}
-        >
-          <option value="">Select</option>
-          <option value="week">Last week</option>
-          <option value="month">Last month</option>
-          <option value="year">Last year</option>
-        </select>
-      </div>
-      <div className="mb-4">
-        <div className="flex items-center space-x-4">
-          <label className="text-gray-700 cursor-pointer">
-            <span className="font-semibold">Select your own dates</span>
-          </label>
-          <label className="flex items-center space-x-1 cursor-pointer">
-            <span className="text-gray-600">Show Calendar</span>
-            <input
-              type="checkbox"
-              ref={checkboxRef}
-              className="w-4 h-4 text-blue-500 border rounded cursor-pointer"
-              onChange={() => setIsCalendarTicked((prevState) => !prevState)}
-            />
-          </label>
+      <div className="bg-white rounded-lg shadow-md p-6 space-y-4 mb-5">
+        <div className="flex flex-wrap justify-between">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            onClick={() => setFilteredItems(originalItems)}
+          >
+            See all
+          </button>
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+            onClick={() => {
+              getIncomeOrExpenses("Income");
+            }}
+          >
+            Income
+          </button>
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+            onClick={() => {
+              getIncomeOrExpenses("Expenses");
+            }}
+          >
+            Expenses
+          </button>
         </div>
-
-        {isCalendarTicked && (
-          <div className="mt-4 p-4 bg-white rounded border">
-            <form action="">
-              <label htmlFor="from" className="block text-gray-700 mb-1">
-                From
-              </label>
+        <div>
+          <label htmlFor="timeframe" className="block text-gray-600 mb-1">
+            See movement for
+          </label>
+          <select
+            id="timeframe"
+            className="border rounded p-2 w-full text-gray-700"
+            onChange={(e) => {
+              getItemsFromButtonSelection(
+                e.target.value as
+                  | "week"
+                  | "month"
+                  | "year"
+                  | "future"
+                  | "today",
+              );
+              setSelectedOption(e.target.value);
+            }}
+          >
+            <option value="">Select</option>
+            <option value="today">Today</option>
+            <option value="week">Last week</option>
+            <option value="month">Last month</option>
+            <option value="year">Last year</option>
+            <option value="future">Future</option>
+          </select>
+        </div>
+        <div>
+          <div className="flex items-center space-x-4">
+            <label className="text-gray-600 cursor-pointer">
+              <span className="font-semibold">Select your own dates</span>
+            </label>
+            <label className="flex items-center space-x-1 cursor-pointer">
+              <span className="text-gray-600">Show Calendar</span>
               <input
-                type="date"
-                id="from"
-                ref={inputRefFrom}
-                className="border p-2 w-full"
+                type="checkbox"
+                ref={checkboxRef}
+                className="w-4 h-4 text-blue-500 border rounded cursor-pointer"
+                onChange={() => setIsCalendarTicked((prevState) => !prevState)}
               />
-              <label htmlFor="to" className="block text-gray-700 mt-2 mb-1">
-                To
-              </label>
-              <input
-                type="date"
-                id="to"
-                ref={inputRefTo}
-                className="border p-2 w-full"
-              />
-              <button
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                onClick={getFilteredItems}
-              >
-                Search
-              </button>
-            </form>
+            </label>
           </div>
-        )}
+          {isCalendarTicked && (
+            <div className="mt-4 p-4 bg-white rounded border">
+              <form action="">
+                <label htmlFor="from" className="block text-gray-600 mb-1">
+                  From
+                </label>
+                <input
+                  type="date"
+                  id="from"
+                  ref={inputRefFrom}
+                  className="border p-2 w-full"
+                />
+                <label htmlFor="to" className="block text-gray-600 mt-2 mb-1">
+                  To
+                </label>
+                <input
+                  type="date"
+                  id="to"
+                  ref={inputRefTo}
+                  className="border p-2 w-full"
+                />
+                <button
+                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                  onClick={getFilteredItemsFromCalendarSelection}
+                >
+                  Search
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
       </div>
+
       <div>
         <p className="text-lg font-semibold mb-2">
           {isCalendarTicked
             ? "Total cash flow in your specified range"
             : selectedOption
-            ? `Total cash flow in the last ${selectedOption}`
+            ? wordingForSelectedOption
             : "Total cash flow"}
         </p>
         <div className="flex justify-between">
@@ -184,11 +228,11 @@ function Dashboard() {
         </div>
 
         <div className="flex flex-col gap-3 mt-5">
-          {filteredItems!.length === 0 ? (
+          {filteredItems?.length === 0 ? (
             <p className="text-gray-600">Zero expenses or income found.</p>
           ) : (
-            filteredItems!.map((item) => (
-              <ExpenseIncomeItem item={item} key={crypto.randomUUID()} />
+            filteredItems?.map((item) => (
+              <ExpenseIncomeItem item={item} key={item.id} />
             ))
           )}
         </div>

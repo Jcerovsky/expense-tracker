@@ -41,6 +41,7 @@ function ExpenseForm() {
         id: "",
         uid: context?.userId || null,
       });
+      console.log(";successfully added");
     } catch (err) {
       context?.setErrorMessage(err as string);
     }

@@ -15,7 +15,9 @@ function ExpenseIncomeItem({ item }: Props) {
   const context = useContext(UserContext);
   const handleDelete = async (id: string) => {
     await deleteData(id, context);
-    context?.fetchData();
+    context?.setExpensesData((prevData) => {
+      return prevData.filter((data) => data.id !== id);
+    });
   };
 
   return (
@@ -25,7 +27,7 @@ function ExpenseIncomeItem({ item }: Props) {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        <span className="text-3xl bg-purple-700 text-white p-2 rounded-xl">
+        <span className="text-3xl bg-gradient-to-r from-purple-500 to-purple-700 text-white p-2 rounded-xl">
           {
             expensesCategories[
               item.category.toLowerCase() as keyof typeof expensesCategories
@@ -39,7 +41,7 @@ function ExpenseIncomeItem({ item }: Props) {
           </p>
         </div>
         <p
-          className="absolute text-xs top-0 left-0 bg-yellow-300 rounded-xl pl-1 pr-1  "
+          className="absolute text-xs top-0 left-0 bg-gradient-to-r from-teal-400 to-blue-500 rounded-xl pl-1 pr-1 text-white"
           style={{ top: "-0.7rem" }}
         >
           {item.date === getDate()

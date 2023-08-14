@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { ErrorMessage } from "./ErrorMessage";
 import { getDate } from "../utils/getDate";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 import ExpenseIncomeItem from "./ExpenseIncomeItem";
 import { useNavigate } from "react-router-dom";
+import NoData from "./NoData";
 
 function Home() {
   const context = useContext(UserContext);
@@ -13,15 +14,23 @@ function Home() {
 
   useEffect(() => {
     context?.fetchData();
-  }, [context?.userId]);
+  }, []);
 
-  const sortedByDate = context?.filteredByUser.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  const sortedByDate = useMemo(() => {
+    if (context?.filteredByUser) {
+      return context.filteredByUser.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
+    }
+    return [];
+  }, [context?.filteredByUser]);
 
-  const filteredByDate = sortedByDate!.filter(
-    (item) => item.date === getDate(),
-  );
+  const filteredByDate = useMemo(() => {
+    if (sortedByDate) {
+      return sortedByDate.filter((item) => item.date === getDate());
+    }
+    return [];
+  }, [sortedByDate]);
 
   useEffect(() => {
     const filtered = filteredByDate
@@ -29,6 +38,10 @@ function Home() {
       .reduce((total, acc) => total + acc.cost, 0);
     setSpendingToday(formatNumber(filtered));
   }, [filteredByDate]);
+
+  if (!context?.filteredByUser || context?.filteredByUser.length === 0) {
+    return <NoData />;
+  }
 
   return (
     <div className="p-3 bg-blue-300 w-full">
@@ -52,8 +65,8 @@ function Home() {
         </div>
 
         <div className="flex flex-col gap-5 mt-4">
-          {sortedByDate!.map((item) => (
-            <ExpenseIncomeItem item={item} key={crypto.randomUUID()} />
+          {sortedByDate.map((item) => (
+            <ExpenseIncomeItem item={item} key={item.id} />
           ))}
         </div>
       </div>
