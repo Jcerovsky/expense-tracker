@@ -47,20 +47,25 @@ function Dashboard() {
 
   const getItemsFromButtonSelection = useCallback(
     (date: "week" | "month" | "year" | "future" | "today") => {
-      if (date === "future") setIsCalendarTicked(false);
+      if (date === "future") {
+        setFilteredItems(
+          context?.filteredByUser.filter((item) => item.date > getDate()),
+        );
+      } else {
+        setFilteredItems(
+          context?.filteredByUser
+            ?.filter(
+              (item) =>
+                item.date > calculateDateFromTimeframe(date) &&
+                item.date <= getDate(),
+            )
+            .sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+            ),
+        );
+      }
+      setIsCalendarTicked(false);
       checkboxRef.current!.checked = false;
-
-      setFilteredItems(
-        context?.filteredByUser
-          ?.filter(
-            (item) =>
-              item.date > calculateDateFromTimeframe(date) &&
-              item.date <= getDate(),
-          )
-          .sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-          ),
-      );
     },
     [context?.filteredByUser],
   );
