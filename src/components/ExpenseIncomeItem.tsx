@@ -27,7 +27,7 @@ function ExpenseIncomeItem({ item }: Props) {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        <span className="text-3xl bg-gradient-to-r from-purple-500 to-purple-700 text-white p-2 rounded-xl">
+        <span className="text-3xl bg-gradient-to-r from-blue-400 to-purple-700 text-white p-2 rounded-xl">
           {
             expensesCategories[
               item.category.toLowerCase() as keyof typeof expensesCategories

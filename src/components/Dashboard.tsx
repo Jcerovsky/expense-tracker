@@ -11,6 +11,7 @@ import ExpenseIncomeItem from "./ExpenseIncomeItem";
 import { expensesCollectionProps } from "../utils/firebase";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 import NoData from "./NoData";
+import { getDate } from "../utils/getDate";
 
 function Dashboard() {
   const context = useContext(UserContext);
@@ -28,8 +29,16 @@ function Dashboard() {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   useEffect(() => {
-    setFilteredItems(context?.filteredByUser);
-    setOriginalItems(context?.filteredByUser);
+    setFilteredItems(
+      context?.filteredByUser.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      ),
+    );
+    setOriginalItems(
+      context?.filteredByUser.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      ),
+    );
   }, []);
 
   useEffect(() => {
@@ -38,19 +47,25 @@ function Dashboard() {
 
   const getItemsFromButtonSelection = useCallback(
     (date: "week" | "month" | "year" | "future" | "today") => {
-      setIsCalendarTicked(false);
+      if (date === "future") setIsCalendarTicked(false);
       checkboxRef.current!.checked = false;
 
       setFilteredItems(
-        context?.filteredByUser?.filter(
-          (item) => item.date >= calculateDateFromTimeframe(date),
-        ),
+        context?.filteredByUser
+          ?.filter(
+            (item) =>
+              item.date > calculateDateFromTimeframe(date) &&
+              item.date <= getDate(),
+          )
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          ),
       );
     },
     [context?.filteredByUser],
   );
 
-  const getIncomeOrExpenses = (category: "Income" | "Expenses") => {
+  const getIncomeOrExpenses = (category: "Income" | "Expenses" | "all") => {
     if (category === "Income") {
       setFilteredItems(
         originalItems?.filter((item) => item.category === "Income"),
@@ -59,6 +74,8 @@ function Dashboard() {
       setFilteredItems(
         originalItems?.filter((item) => item.category !== "Income"),
       );
+    } else {
+      setFilteredItems(originalItems);
     }
   };
 
@@ -119,7 +136,9 @@ function Dashboard() {
         <div className="flex flex-wrap justify-between">
           <button
             className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-            onClick={() => setFilteredItems(originalItems)}
+            onClick={() => {
+              getIncomeOrExpenses("all");
+            }}
           >
             See all
           </button>
@@ -132,7 +151,7 @@ function Dashboard() {
             Income
           </button>
           <button
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+            className="bg-gradient-to-r from-red-400 to-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-600"
             onClick={() => {
               getIncomeOrExpenses("Expenses");
             }}
@@ -218,7 +237,7 @@ function Dashboard() {
       <div>
         <p className="text-lg font-semibold mb-2">
           {isCalendarTicked
-            ? "Total cash flow in your specified range"
+            ? `Cash flow in your range`
             : selectedOption
             ? wordingForSelectedOption
             : "Total cash flow"}
