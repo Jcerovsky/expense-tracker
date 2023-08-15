@@ -46,23 +46,34 @@ function Dashboard() {
   }, []);
 
   const getItemsFromButtonSelection = useCallback(
-    (date: "week" | "month" | "year" | "future" | "today") => {
+    (date: "week" | "month" | "year" | "future" | "today" | "all") => {
       if (date === "future") {
-        setFilteredItems(
-          context?.filteredByUser.filter((item) => item.date > getDate()),
+        const filtered = context?.filteredByUser.filter(
+          (item) => item.date > getDate(),
         );
+        setFilteredItems(filtered);
+        setOriginalItems(filtered);
+      } else if (date === "today") {
+        const filtered = context?.filteredByUser.filter(
+          (item) => item.date === getDate(),
+        );
+        setFilteredItems(filtered);
+        setOriginalItems(filtered);
+      } else if (date === "all") {
+        setFilteredItems(context?.filteredByUser);
       } else {
-        setFilteredItems(
-          context?.filteredByUser
-            ?.filter(
-              (item) =>
-                item.date > calculateDateFromTimeframe(date) &&
-                item.date <= getDate(),
-            )
-            .sort(
-              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-            ),
-        );
+        const filtered = context?.filteredByUser
+          ?.filter(
+            (item) =>
+              item.date > calculateDateFromTimeframe(date) &&
+              item.date <= getDate(),
+          )
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          );
+
+        setFilteredItems(filtered);
+        setOriginalItems(filtered);
       }
       setIsCalendarTicked(false);
       checkboxRef.current!.checked = false;
@@ -178,7 +189,8 @@ function Dashboard() {
                   | "month"
                   | "year"
                   | "future"
-                  | "today",
+                  | "today"
+                  | "all",
               );
               setSelectedOption(e.target.value);
             }}
@@ -189,6 +201,7 @@ function Dashboard() {
             <option value="month">Last month</option>
             <option value="year">Last year</option>
             <option value="future">Future</option>
+            <option value="all">All</option>
           </select>
         </div>
         <div>
