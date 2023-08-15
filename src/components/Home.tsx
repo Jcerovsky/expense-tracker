@@ -44,24 +44,26 @@ function Home() {
   }
 
   return (
-    <div className="p-3 bg-blue-300 w-full">
+    <div className="p-3 bg-blue-300 w-full h-screen">
       <ErrorMessage
         errorMessage={context?.errorMessage}
         setErrorMessage={context?.setErrorMessage}
       />
       <div>
-        <div className="p-2 pl-4 pr-4 text-sm rounded-lg flex gap-2 items-center justify-between mb-3 bg-gradient-to-r from-teal-200 to-teal-300">
-          <div className="flex flex-col p-2 bg-white rounded-md">
-            <p className="text-gray-700 font-semibold">Spending today</p>
-            <p className="text-teal-600 font-bold">${spendingToday}</p>
+        <div className="p-4 rounded-lg bg-gradient-to-r from-teal-300 to-blue-600 flex items-center justify-between mb-5 shadow-md">
+          <div className="p-4 bg-white rounded-md flex flex-col">
+            <p className="text-gray-700 font-semibold">Today's Spending</p>
+            <p className="text-teal-600 font-bold text-xl">${spendingToday}</p>
           </div>
 
-          <button
-            className="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-md transition duration-300 ease-in-out"
-            onClick={() => navigate("/form")}
-          >
-            Add more
-          </button>
+          <div className="flex">
+            <button
+              className=" text-4xl w-14 h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-full transition duration-300 ease-in-out shadow-md"
+              onClick={() => navigate("/form")}
+            >
+              +
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-col gap-5 mt-4">

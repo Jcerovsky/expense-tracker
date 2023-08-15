@@ -144,6 +144,8 @@ function Dashboard() {
       ? "Cash flow today"
       : selectedOption === "future"
       ? "Future cash flow"
+      : selectedOption === "all"
+      ? "Total cash flow"
       : `Total cash flow in the last ${selectedOption}`;
 
   return (
