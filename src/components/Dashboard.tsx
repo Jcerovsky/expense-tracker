@@ -29,17 +29,12 @@ function Dashboard() {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   useEffect(() => {
-    setFilteredItems(
-      context?.filteredByUser.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      ),
+    const sortedItems = context?.filteredByUser.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
     );
-    setOriginalItems(
-      context?.filteredByUser.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      ),
-    );
-  }, []);
+    setFilteredItems(sortedItems);
+    setOriginalItems(sortedItems);
+  }, [context?.filteredByUser]);
 
   useEffect(() => {
     context?.fetchData();
@@ -150,29 +145,23 @@ function Dashboard() {
 
   return (
     <div className="bg-gray-100 p-5">
-      <div className="bg-white rounded-lg shadow-md p-6 space-y-4 mb-5">
-        <div className="flex flex-wrap justify-between">
+      <div className=" bg-white rounded-lg shadow-md p-6 space-y-4 mb-5 sm:flex">
+        <div className="flex flex-col gap-2 max-w-xs ml-auto mr-auto flex-1">
           <button
-            className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-            onClick={() => {
-              getIncomeOrExpenses("all");
-            }}
+            onClick={() => getIncomeOrExpenses("all")}
+            className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-800"
           >
             See all
           </button>
           <button
-            className="bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-            onClick={() => {
-              getIncomeOrExpenses("Income");
-            }}
+            onClick={() => getIncomeOrExpenses("Income")}
+            className="bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-800"
           >
             Income
           </button>
           <button
-            className="bg-gradient-to-r from-red-400 to-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-            onClick={() => {
-              getIncomeOrExpenses("Expenses");
-            }}
+            onClick={() => getIncomeOrExpenses("Expenses")}
+            className="bg-gradient-to-r from-red-400 to-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-800"
           >
             Expenses
           </button>
@@ -254,7 +243,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div>
+      <div className="flex flex-col max-w-full">
         <p className="text-lg font-semibold mb-2">
           {isCalendarTicked
             ? `Cash flow in your range`

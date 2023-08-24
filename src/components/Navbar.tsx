@@ -32,38 +32,31 @@ function Navbar() {
       )}
       <Link
         to="/"
-        className={`text-2xl hover:underline self-center ${
-          showMenu ? "hidden" : ""
-        } `}
+        className={`text-2xl self-center ${showMenu ? "hidden" : ""} `}
       >
         BudgetPal
       </Link>
 
       <ul
         className={`sm:flex ml-auto gap-3  text-l cursor-pointer  ${
-          showMenu
-            ? " h-screen w-full flex flex-col justify-center items-center gap-10 text-3xl"
-            : "hidden"
+          showMenu ? "gap-10 text-3xl mt-10" : "hidden"
         }`}
         onClick={() => setShowMenu(false)}
       >
         {user ? (
           <>
-            <li className="hover:underline hover:scale-90 ">
+            <li className="hover:scale-90 hover:border-2 border-black rounded-lg p-1">
               <Link to="/">Expenses</Link>
             </li>
-            <li className="hover:underline hover:scale-90">
+            <li className="hover:scale-90 hover:border-2 border-black rounded-lg p-1">
               <Link to="/dashboard">Dashboard</Link>
             </li>
-            <li className="hover:underline hover:scale-90">
+            <li className="hover:scale-90 hover:border-2 border-black rounded-lg p-1">
               <Link to="/form">Add</Link>
-            </li>
-            <li className="hover:underline hover:scale-90">
-              <Link to="/budget">Budget</Link>
             </li>
 
             <li
-              className="hover:underline hover:scale-90"
+              className="hover:scale-90 hover:border-2 border-black rounded-lg p-1"
               onClick={async () => {
                 await auth.signOut();
               }}
@@ -72,13 +65,13 @@ function Navbar() {
             </li>
           </>
         ) : (
-          <li className="hover:underline hover:scale-90">
+          <li className="hover:scale-90">
             <Link to="/login">{loading ? "Loading..." : "Sign In"}</Link>
           </li>
         )}
       </ul>
       <GiHamburgerMenu
-        className={`sm:hidden text-3xl ml-auto cursor-pointer hover:scale-125 ${
+        className={`sm:hidden text-3xl ml-auto cursor-pointer hover:scale-125  ${
           showMenu ? "" : "self-center"
         }`}
         onClick={() => setShowMenu((prevState) => !prevState)}

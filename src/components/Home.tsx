@@ -15,6 +15,7 @@ function Home() {
   useEffect(() => {
     context?.fetchData();
   }, []);
+  console.log("i ran from home component");
 
   const sortedByDate = useMemo(() => {
     if (context?.filteredByUser) {
