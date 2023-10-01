@@ -26,7 +26,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const context = useContext(UserContext);
 
   const fetchData = () => {
-    console.log("i ran");
     FetchData(context)
       .then((data) => {
         setExpensesData(data!);
