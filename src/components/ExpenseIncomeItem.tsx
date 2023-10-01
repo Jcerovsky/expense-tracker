@@ -23,7 +23,7 @@ function ExpenseIncomeItem({ item }: Props) {
 
   return (
     <div
-      className="container flex gap-2 bg-gray-200 rounded-xl items-center justify-left p-2 relative"
+      className="container flex gap-2 bg-gray-200 rounded-xl items-center justify-left p-2 relative ml-auto mr-auto"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

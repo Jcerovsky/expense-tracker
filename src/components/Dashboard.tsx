@@ -145,7 +145,7 @@ function Dashboard() {
 
   return (
     <div className="bg-gray-100 p-5">
-      <div className=" bg-white rounded-lg shadow-md p-6 space-y-4 mb-5 sm:flex sm:gap-2">
+      <div className=" bg-white rounded-lg shadow-md p-6 space-y-4 mb-5 sm:flex sm:gap-3 md:flex lg:gap-[5rem]">
         <div className="flex flex-col gap-2 max-w-xs ml-auto mr-auto flex-1">
           <button
             onClick={() => getIncomeOrExpenses("all")}
@@ -195,12 +195,12 @@ function Dashboard() {
             <option value="all">All</option>
           </select>
         </div>
-        <div>
-          <div className="flex items-center space-x-4">
+        <div className="flex justify-center sm:flex-col self-start">
+          <div className="flex flex-col items-center space-x-4  sm:text-left">
             <label className="text-gray-600 cursor-pointer">
               <span className="font-semibold">Select your own dates</span>
             </label>
-            <label className="flex items-center space-x-1 cursor-pointer">
+            <label className="flex items-center gap-2 cursor-pointer sm:ml-0 sm:mr-auto">
               <span className="text-gray-600">Show Calendar</span>
               <input
                 type="checkbox"
@@ -211,8 +211,8 @@ function Dashboard() {
             </label>
           </div>
           {isCalendarTicked && (
-            <div className="mt-4 p-4 bg-white rounded border">
-              <form action="">
+            <div className="mt-4 p-4 bg-white rounded border m-2">
+              <form>
                 <label htmlFor="from" className="block text-gray-600 mb-1">
                   From
                 </label>
