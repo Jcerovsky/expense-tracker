@@ -6,16 +6,18 @@ import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 import ExpenseIncomeItem from "./ExpenseIncomeItem";
 import { useNavigate } from "react-router-dom";
 import NoData from "./NoData";
+import Loading from "./Loading";
 
 function Home() {
   const context = useContext(UserContext);
   const [spendingToday, setSpendingToday] = useState<string>("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     context?.fetchData();
+    setIsLoading(false);
   }, []);
-  console.log("i ran from home component");
 
   const sortedByDate = useMemo(() => {
     if (context?.filteredByUser) {
@@ -42,6 +44,10 @@ function Home() {
 
   if (!context?.filteredByUser || context?.filteredByUser.length === 0) {
     return <NoData />;
+  }
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (

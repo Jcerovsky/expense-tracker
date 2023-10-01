@@ -46,18 +46,18 @@ function Navbar() {
       >
         {user ? (
           <>
-            <li className="hover:scale-90 hover:border-2 border-black rounded-lg p-1">
+            <li className="hover:scale-90  rounded-lg p-1">
               <Link to="/">Expenses</Link>
             </li>
-            <li className="hover:scale-90 hover:border-2 border-black rounded-lg p-1">
+            <li className="hover:scale-90  rounded-lg p-1">
               <Link to="/dashboard">Dashboard</Link>
             </li>
-            <li className="hover:scale-90 hover:border-2 border-black rounded-lg p-1">
+            <li className="hover:scale-90  rounded-lg p-1">
               <Link to="/form">Add</Link>
             </li>
 
             <li
-              className="hover:scale-90 hover:border-2 border-black rounded-lg p-1"
+              className="hover:scale-90 rounded-lg p-1"
               onClick={async () => {
                 await auth.signOut();
               }}
@@ -72,7 +72,7 @@ function Navbar() {
         )}
       </ul>
       <GiHamburgerMenu
-        className={`sm:hidden text-3xl ml-auto cursor-pointer hover:scale-125  ${
+        className={`sm:hidden text-3xl ml-auto cursor-pointer hover:scale-105  ${
           showMenu ? "" : "self-center"
         }`}
         onClick={() => setShowMenu((prevState) => !prevState)}

@@ -145,7 +145,7 @@ function Dashboard() {
 
   return (
     <div className="bg-gray-100 p-5">
-      <div className=" bg-white rounded-lg shadow-md p-6 space-y-4 mb-5 sm:flex">
+      <div className=" bg-white rounded-lg shadow-md p-6 space-y-4 mb-5 sm:flex sm:gap-2">
         <div className="flex flex-col gap-2 max-w-xs ml-auto mr-auto flex-1">
           <button
             onClick={() => getIncomeOrExpenses("all")}

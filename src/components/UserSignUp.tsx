@@ -96,7 +96,7 @@ function UserSignUp() {
           className="border-2 rounded-lg p-3 hover:bg-gray-100"
         />
         <button
-          className="border-0 rounded-full p-3 bg-blue-600 text-center hover:bg-blue-500"
+          className="border-0 rounded-full p-3 bg-blue-600 text-center hover:bg-blue-500 hover:text-white"
           onClick={(e) => handleSubmit(e)}
         >
           Sign up
