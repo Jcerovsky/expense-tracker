@@ -12,12 +12,14 @@ import { expensesCollectionProps } from "../utils/firebase";
 import { formatNumber } from "../utils/formatNumberToIncludeDecimalPlaces";
 import NoData from "./NoData";
 import { getDate } from "../utils/getDate";
+import Loading from "./Loading";
 
 function Dashboard() {
   const context = useContext(UserContext);
   const inputRefFrom = useRef<HTMLInputElement>(null);
   const inputRefTo = useRef<HTMLInputElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [originalItems, setOriginalItems] = useState<
     expensesCollectionProps[] | undefined
@@ -38,6 +40,7 @@ function Dashboard() {
 
   useEffect(() => {
     context?.fetchData();
+    setIsLoading(false);
   }, []);
 
   const getItemsFromButtonSelection = useCallback(
@@ -142,6 +145,10 @@ function Dashboard() {
       : selectedOption === "all"
       ? "Total cash flow"
       : `Total cash flow in the last ${selectedOption}`;
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-gray-100 p-5">
