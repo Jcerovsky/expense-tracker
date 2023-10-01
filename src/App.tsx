@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import Dashboard from "./components/Dashboard";
 import IncomeForm from "./components/IncomeForm";
 import Form from "./components/Form";
+import Loading from "./components/Loading";
 
 function App() {
   const [authChecked, setAuthChecked] = useState<boolean>(false);
@@ -29,13 +30,7 @@ function App() {
   };
 
   if (!authChecked) {
-    return (
-      <div className="flex justify-center content-center h-screen bg-blue-300">
-        <h1 className="animate-bounce text-4xl items-center self-center ">
-          Loading...
-        </h1>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (

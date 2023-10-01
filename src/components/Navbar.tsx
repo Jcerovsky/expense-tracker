@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import "../index.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
+import Loading from "./Loading";
 
 function Navbar() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -66,7 +67,7 @@ function Navbar() {
           </>
         ) : (
           <li className="hover:scale-90">
-            <Link to="/login">{loading ? "Loading..." : "Sign In"}</Link>
+            <Link to="/login">{loading ? <Loading /> : "Sign In"}</Link>
           </li>
         )}
       </ul>

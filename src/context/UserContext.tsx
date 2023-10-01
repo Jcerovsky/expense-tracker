@@ -22,6 +22,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [expensesData, setExpensesData] = useState<expensesCollectionProps[]>(
     [],
   );
+
   const context = useContext(UserContext);
 
   const fetchData = () => {
